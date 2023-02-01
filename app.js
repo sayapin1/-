@@ -2,8 +2,8 @@
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
-
-const indexRouter = require('./routes/index');
+const port = 3000;
+const router = require('./routes');
 
 const app = express();
 
@@ -16,6 +16,18 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
+app.use('/', router);
 
+
+app.listen(port, () => {
+    console.log(
+        `
+˚∧ ＿ ∧  　+        —̳͟͞͞❤
+(  •‿• )つ  —̳͟͞͞ ❤         —̳͟͞͞❤ +
+(つ　 <                —̳͟͞͞❤
+｜　 _つ      +  —̳͟͞͞❤         —̳͟͞͞❤ ˚
+ し´
+   server is running on port ${port}
+    ` )
+})
 module.exports = app;
