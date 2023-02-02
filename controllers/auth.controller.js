@@ -52,7 +52,8 @@ class AuthController {
       const { loginId, loginPw } = req.body;
 
       if (typeof req.cookies.accessToken !== "undefined") {
-        throw new Error("Login Error");
+        res.status(400).json({ errorMessage: "이미 로그인 되어 있습니다." });
+        res.status(400).redirect("/");
       }
 
       if (!loginId || !loginPw) {
@@ -80,7 +81,6 @@ class AuthController {
     } catch (erorr) {
       console.log(erorr);
       if (erorr.message === "ID Error") {
-        console.log("아이디 틀렸는데 이거 안나오냐");
         res.status(404).json({ errorMessage: "아이디가 존재하지 않습니다." });
       } else if (erorr.message === "Password Error") {
         res.status(400).json({ errorMessage: "비밀번호가 틀립니다." });
@@ -92,6 +92,7 @@ class AuthController {
     }
   };
 
+  // 로그아웃
   logoutAuth = (req, res, next) => {
     res.clearCookie("accessToken");
     res.clearCookie("refreshToken");

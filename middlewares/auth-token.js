@@ -16,11 +16,9 @@ const authToken = (req, res, next) => {
       const newAccessToken = jwt.sign(
         {
           type: "JWT",
-          userId: refreshToken.userId,
-          accountId: refreshToken.accountId,
-          member: refreshToken.member,
+          loginId: refreshToken.loginId,
         },
-        process.env.ACCESS_JWT_SECRET_KET,
+        process.env.JWT_ACCESS_SECRET,
         {
           expiresIn: "10m",
         }
@@ -29,18 +27,18 @@ const authToken = (req, res, next) => {
       res.cookie("accessToken", newAccessToken);
     }
 
-    req.userInfo = jwt.verify(accessToken, process.env.ACCESS_JWT_SECRET_KET);
+    req.authInfo = jwt.verify(accessToken, process.env.JWT_ACCESS_SECRET);
     next();
   } catch (error) {
     console.log(error);
     res.clearCookie("accessToken");
     res.clearCookie("refreshToken");
-    res.status(401).redirect("/login_page");
+    res.status(401).redirect("/");
   }
 
   function validateAccessToken(accessToken) {
     try {
-      jwt.verify(accessToken, process.env.ACCESS_JWT_SECRET_KET); // JWT를 검증합니다.
+      jwt.verify(accessToken, process.env.JWT_ACCESS_SECRET); // JWT를 검증합니다.
       return true;
     } catch (error) {
       return false;
@@ -50,7 +48,7 @@ const authToken = (req, res, next) => {
   // Refresh Token을 검증합니다.
   function validateRefreshToken(refreshToken) {
     try {
-      jwt.verify(refreshToken, process.env.REFRESH_JWT_SECRET_KET); // JWT를 검증합니다.
+      jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET); // JWT를 검증합니다.
       return true;
     } catch (error) {
       return false;
