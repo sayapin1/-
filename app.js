@@ -1,8 +1,12 @@
 const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
+const port = 3000;
+// router 수정좀 했어요
+// const router = require("./routes");
 
-const indexRouter = require("./routes/index");
+// 내부 모듈
+const router = require("./routes/index");
 
 const app = express();
 
@@ -13,8 +17,21 @@ app.set("view engine", "ejs");
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use("/", indexRouter);
+app.use("/", router);
 
+app.listen(port, () => {
+  console.log(
+    `
+˚∧ ＿ ∧  　+        —̳͟͞͞❤
+(  •‿• )つ  —̳͟͞͞ ❤         —̳͟͞͞❤ +
+(つ　 <                —̳͟͞͞❤
+｜　 _つ      +  —̳͟͞͞❤         —̳͟͞͞❤ ˚
+ し´
+   server is running on port ${port}
+    `
+  );
+});
 module.exports = app;
