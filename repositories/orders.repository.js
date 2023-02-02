@@ -1,5 +1,3 @@
-const {or} = require("sequelize");
-
 class OrdersRepository {
     constructor(ordersModel) {
         this.ordersModel = ordersModel
@@ -28,7 +26,12 @@ class OrdersRepository {
         })
     }
 
-
+      //주문생성
+    createOrder = async(memberId,goodsId,quantity)=>{
+        await this.ordersModel.create({
+            memberId,goodsId,quantity
+        })
+    }
 }
 
 module.exports = OrdersRepository

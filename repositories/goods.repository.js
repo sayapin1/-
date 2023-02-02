@@ -48,5 +48,5 @@ class GoodsRepository {
 
 }
 
-
 module.exports = GoodsRepository
+

@@ -33,5 +33,6 @@ class MembersRepository {
 
 }
 
+
 module.exports = MembersRepository
 
