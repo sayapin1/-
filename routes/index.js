@@ -10,7 +10,7 @@ router.use('/', OutputRouter)
 const MemberRouter = require('./member.routes');
 router.use('/api/member', MemberRouter)
 
-const AuthRouter = require("./auth/auth.route");
+const AuthRouter = require("./auth.routes");
 router.use("/api/auth", AuthRouter);
 
 module.exports = router;

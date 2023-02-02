@@ -100,6 +100,8 @@ class AuthService {
         {
           type: "JWT",
           loginId: authInfo.loginId,
+          id: authInfo.id,
+          level: authInfo.level
         },
         process.env.JWT_REFRESH_SECRET,
         {
