@@ -43,8 +43,8 @@ class AdminService {
 
     editMembershipLevel = async (memberId) => {
         try {
-            const membershipLevel = await  this.membersRepository.getMembershipLevel(memberId);
-            if ( membershipLevel === 1) {
+            const membershipLevel = await this.membersRepository.getMembershipLevel(memberId);
+            if (membershipLevel === 1) {
                 let afterLevel = 0;
                 await this.membersRepository.editMembershipLevel(memberId, afterLevel);
             } else {
@@ -91,25 +91,25 @@ class AdminService {
                 return {code: 412, message: '같은 이름의 상품이 있습니다.'}
             }
 
-            if ( goodsName ) {
+            if (goodsName) {
                 goodsName = goodsName
             } else {
                 goodsName = goods.goodsName
             }
 
-            if ( price ) {
+            if (price) {
                 price = price
             } else {
                 price = goods.price
             }
 
-            if ( detail ) {
+            if (detail) {
                 detail = detail
             } else {
                 detail = goods.detail
             }
 
-            if ( photo ) {
+            if (photo) {
                 photo = photo
             } else {
                 photo = goods.photo
@@ -141,17 +141,17 @@ class AdminService {
     completeOrder = async (orderId) => {
         try {
             const order = await this.ordersRepository.getOneOrder(orderId);
-            if(!order) {
-                return { code: 404, message: '주문이 존재하지 않습니다.'}
+            if (!order) {
+                return {code: 404, message: '주문이 존재하지 않습니다.'}
             }
 
             const completedOrder = await this.ordersRepository.findIfCompleted(orderId);
-            if ( completedOrder ){
-                return { code: 400, message: '이미 완료된 주문입니다.'}
+            if (completedOrder) {
+                return {code: 400, message: '이미 완료된 주문입니다.'}
             }
 
             await this.ordersRepository.completeOrder(orderId);
-            return { code: 200, message: '주문 완료'}
+            return {code: 200, message: '주문 완료'}
         } catch (error) {
             console.error(error);
             return {code: 400, message: '주문 완료 실패'}

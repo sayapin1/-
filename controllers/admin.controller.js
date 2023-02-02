@@ -4,6 +4,11 @@ class AdminController {
     adminService = new AdminService();
 
     getMemberList = async (req, res, next) => {
+        const {level} = req.authInfo
+        if ( level === 0) {
+            return res.status(400).json({message: "권한이 없습니다."})
+        }
+
         const response = await this.adminService.getMemberList()
         if (response.data) {
             return res.status(response.code).json({data: response.data});
@@ -13,6 +18,11 @@ class AdminController {
     }
 
     getGoodsList = async (req, res, next) => {
+        const {level} = req.authInfo
+        if ( level === 0) {
+            return res.status(400).json({message: "권한이 없습니다."})
+        }
+
         const response = await this.adminService.getGoodsList()
         if (response.data) {
             return res.status(response.code).json({data: response.data});
@@ -22,6 +32,11 @@ class AdminController {
     }
 
     getOrderList = async (req, res, next) => {
+        const {level} = req.authInfo
+        if ( level === 0) {
+            return res.status(400).json({message: "권한이 없습니다."})
+        }
+
         const response = await this.adminService.getOrderList()
         if (response.data) {
             return res.status(response.code).json({data: response.data});

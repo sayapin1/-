@@ -8,12 +8,12 @@ class AuthController {
   registerMember = async (req, res, next) => {
     console.log("이건 뜨겠지4");
     try {
-      const { loginId, loginPw, check_password, memberName } = req.body;
+      const { loginId, loginPw, checkPassword, memberName } = req.body;
 
       const auth = await this.authService.registerMember(
         loginId,
         loginPw,
-        check_password,
+        checkPassword,
         memberName
       );
       if (typeof auth.errorMessage !== "undefined") {

@@ -8,7 +8,7 @@ const { Members } = require("../models");
 
 class AuthService {
   authRepository = new AuthRepository(Members);
-  registerMember = async (loginId, loginPw, check_password, memberName) => {
+  registerMember = async (loginId, loginPw, checkPassword, memberName) => {
     const validateId = /^[a-z0-9]{3,10}$/gs; // 숫자, 영어 소문자로만 3~10 글자, 글자 중간 공백 불가
     const validatePassword = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{5,10}/gs; // 숫자, 영어 대소문자, 특수문자 각 1글자 이상 포함, 5~10글자, 글자 중간 공백 불가
     try {
@@ -24,7 +24,7 @@ class AuthService {
           errorMessage: "비밀번호가 작성 형식과 맞지 않습니다.",
         };
       }
-      if (loginPw !== check_password) {
+      if (loginPw !== checkPassword) {
         return {
           code: 400,
           errorMessage: "비밀번호가 비밀번호 확인란과 다릅니다.",
@@ -89,6 +89,8 @@ class AuthService {
         {
           type: "JWT",
           loginId: authInfo.loginId,
+          id: authInfo.id,
+          level: authInfo.level
         },
         process.env.JWT_ACCESS_SECRET,
         {
