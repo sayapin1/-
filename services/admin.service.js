@@ -5,7 +5,6 @@ const GoodsRepository = require('../repositories/goods.repository')
 const {Members} = require('../models')
 const {Orders} = require('../models')
 const {Goods} = require('../models')
-const {or} = require("sequelize");
 
 class AdminService {
     membersRepository = new MembersRepository(Members);
@@ -34,7 +33,7 @@ class AdminService {
 
     getOrderList = async () => {
         try {
-            const data = await this.ordersRepository.getOrdersList();
+            const data = await this.ordersRepository.getOrderList();
             return {code: 200, data}
         } catch (error) {
             console.error(error);
@@ -44,7 +43,15 @@ class AdminService {
 
     editMembershipLevel = async (memberId) => {
         try {
-            await this.membersRepository.editMembershipLevel(memberId);
+            const membershipLevel = await  this.membersRepository.getMembershipLevel(memberId);
+            if ( membershipLevel === 1) {
+                let afterLevel = 0;
+                await this.membersRepository.editMembershipLevel(memberId, afterLevel);
+            } else {
+                let afterLevel = 1;
+                await this.membersRepository.editMembershipLevel(memberId, afterLevel);
+            }
+
             return {code: 200, message: '등급 조정 완료.'}
         } catch (error) {
             console.error(error);
@@ -54,13 +61,13 @@ class AdminService {
 
     addGoods = async (goodsName, price, detail, photo) => {
         try {
+            if (!goodsName | !price | !detail | !photo) {
+                return {code: 412, message: '모든 정보를 추가해주세요.'}
+            }
+
             const existingGoods = await this.goodsRepository.findIfDuplicated(goodsName);
             if (existingGoods) {
                 return {code: 412, message: '같은 이름의 상품이 있습니다.'}
-            }
-
-            if (!goodsName | !price | !detail | !photo) {
-                return {code: 412, message: '모든 정보를 추가해주세요.'}
             }
 
             await this.goodsRepository.addGoods(goodsName, price, detail, photo);
@@ -73,6 +80,7 @@ class AdminService {
 
     editGoods = async (goodsId, goodsName, price, detail, photo) => {
         try {
+            console.log("이것이 goodsName: ", goodsName)
             const goods = await this.goodsRepository.getOneGoods(goodsId);
             if (!goods) {
                 return {code: 404, message: '상품이 존재하지 않습니다.'}
@@ -83,7 +91,31 @@ class AdminService {
                 return {code: 412, message: '같은 이름의 상품이 있습니다.'}
             }
 
-            await this.goodsRepository.editGoods(goodsName, price, detail, photo);
+            if ( goodsName ) {
+                goodsName = goodsName
+            } else {
+                goodsName = goods.goodsName
+            }
+
+            if ( price ) {
+                price = price
+            } else {
+                price = goods.price
+            }
+
+            if ( detail ) {
+                detail = detail
+            } else {
+                detail = goods.detail
+            }
+
+            if ( photo ) {
+                photo = photo
+            } else {
+                photo = goods.photo
+            }
+
+            await this.goodsRepository.editGoods(goodsId, goodsName, price, detail, photo);
             return {code: 200, message: '상품 수정 완료.'}
         } catch (error) {
             console.error(error);
@@ -111,6 +143,11 @@ class AdminService {
             const order = await this.ordersRepository.getOneOrder(orderId);
             if(!order) {
                 return { code: 404, message: '주문이 존재하지 않습니다.'}
+            }
+
+            const completedOrder = await this.ordersRepository.findIfCompleted(orderId);
+            if ( completedOrder ){
+                return { code: 400, message: '이미 완료된 주문입니다.'}
             }
 
             await this.ordersRepository.completeOrder(orderId);

@@ -6,10 +6,10 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-const AdminRouter = require('../../test/admin.routes');
+const AdminRouter = require('./admin.routes');
 router.use('/api/admin', AdminRouter)
 
-const outputRouter = require('../sosam/routes/output.routes');
+const outputRouter = require('./output.routes');
 router.use('/', outputRouter)
 
 module.exports = router;
