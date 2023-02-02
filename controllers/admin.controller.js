@@ -1,4 +1,4 @@
-const AdminService = require(',,/services/admin.service');
+const AdminService = require('../services/admin.service');
 
 class AdminController {
     adminService = new AdminService();
@@ -61,3 +61,5 @@ class AdminController {
         res.status(response.code).json({ message: response.message });
     }
 }
+
+module.exports = AdminController

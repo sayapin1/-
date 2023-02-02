@@ -5,7 +5,6 @@ const GoodsRepository = require('../repositories/goods.repository')
 const {Members} = require('../models')
 const {Orders} = require('../models')
 const {Goods} = require('../models')
-const {or} = require("sequelize");
 
 class AdminService {
     membersRepository = new MembersRepository(Members);
