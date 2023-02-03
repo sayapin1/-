@@ -47,12 +47,12 @@ class AuthController {
     try {
       const { loginId, loginPw } = req.body;
 
-      if (typeof req.cookies.accessToken !== "undefined") {
-        // res.status(400).json({ errorMessage: "이미 로그인 되어 있습니다." });
-        // res.status(400).redirect("/");
-        alert("이미 로그인 되어 있습니다.");
-        throw new Error("Login Error");
-      }
+      // if (typeof req.cookies.accessToken !== "undefined") {
+      //   // res.status(400).json({ errorMessage: "이미 로그인 되어 있습니다." });
+      //   // res.status(400).redirect("/");
+      //   alert("이미 로그인 되어 있습니다.");
+      //   throw new Error("Login Error");
+      // }
 
       if (!loginId || !loginPw) {
         return res
@@ -62,21 +62,21 @@ class AuthController {
 
       const authInfo = await this.authService.loginMember(loginId, loginPw);
 
-      if (typeof authInfo.message !== "undefined") {
-        throw authInfo;
-        // if (auth.message === "ID Error") {
-        //   return res.status(404).alert("아이디가 존재하지 않습니다.");
-        // } else if (auth.message === "Password Error") {
-        //   return res.status(400).alert("비밀번호가 틀렸습니다.");
-        // }
-      }
+      // if (typeof authInfo.message !== "undefined") {
+      //   throw authInfo;
+      //   // if (auth.message === "ID Error") {
+      //   //   return res.status(404).alert("아이디가 존재하지 않습니다.");
+      //   // } else if (auth.message === "Password Error") {
+      //   //   return res.status(400).alert("비밀번호가 틀렸습니다.");
+      //   // }
+      // }
 
       const [accessToken, refreshToken] = authInfo;
       res.cookie("accessToken", accessToken);
       res.cookie("refreshToken", refreshToken);
       console.log("로그인 정상");
-      res.status(200).redirect("/", { data: authInfo.loginId });
-      console.log("data :",data);
+      // console.log("data :", data);
+      res.status(200).render({ data: req.body });
     } catch (erorr) {
       console.log(erorr);
       if (erorr.message === "ID Error") {

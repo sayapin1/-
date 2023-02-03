@@ -2,6 +2,7 @@ const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const port = 3000;
+
 // router 수정좀 했어요
 // const router = require("./routes");
 

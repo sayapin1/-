@@ -167,6 +167,11 @@
         display: flex;
         align-items: center;
         margin: auto;
+        width: 150px;
+      }
+
+      .btn > a {
+        margin: auto;
       }
     </style>
   </head>
@@ -191,18 +196,25 @@
           alt=""
           style="width: 50px" />
       </div>
-
-      <button type="button" class="btn btn-dark logout">로그아웃</button>
       <% try { %> <% if (loginId) { %>
-      <button type="button" class="btn btn-dark logout">로그아웃</button>
-      <button type="button" class="btn btn-info">
+      <button type="button" class="btn btn-dark logout">
+        <a href="">로그아웃</a>ㄹㄹㄹㄷㄹㅈ
+      </button>
+      <button type="button" class="btn btn-dark">
         <a href="/api/users">마이페이지</a>
       </button>
-      <% } %> <% } catch { %>
-      <button type="button" class="btn btn-dark logout">
+      <% } else if (!loginId) { %>
+      <button type="button" class="btn btn-dark">
         <a href="/login">로그인</a>
       </button>
-      <button type="button" class="btn btn-dark logout">
+      <button type="button" class="btn btn-dark">
+        <a href="/register">회원가입</a>
+      </button>
+      <% } %> <% } catch { %>
+      <button type="button" class="btn btn-dark">
+        <a href="/login">로그인</a>
+      </button>
+      <button type="button" class="btn btn-dark">
         <a href="/register">회원가입</a>
       </button>
       <% } %>
