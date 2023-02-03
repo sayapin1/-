@@ -48,7 +48,7 @@ class AdminController {
     editMembershipLevel = async (req, res, next) => {
         const { memberId } = req.params
         const response = await this.adminService.editMembershipLevel(memberId);
-       res.status(response.code).json({ message: response.message });
+       res.status(response.code).json({ message: response.message, data: response.data });
     }
 
     addGoods = async (req, res, next) => {

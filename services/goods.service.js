@@ -15,16 +15,27 @@ class GoodsService {
 
     //상품목록
   getGoodsList = async()=>{
-    const goodsList = await this.goodsRepository.getAllGoods()
-
-    return goodsList
+    try {
+      const data = await this.goodsRepository.getAllGoods()
+    return {code:200, data}
+    } catch (error) {
+      console.error(error);
+      return { code: 500, message: '상품 목록 불러오기 오류'}
+    }
   }
 
     //상품상세페이지
   getGoodsDetail = async(goodsId)=>{
-    const goodsDetail = await this.goodsRepository.getOneGoods(goodsId)
-
-    return goodsDetail
+    try {
+      const data = await this.goodsRepository.getOneGoods(goodsId);
+      if ( ! data ){
+        return { code: 404, message: '상품이 없습니다.'}
+      }
+    return {code:200, data}
+    } catch (error) {
+      console.error(error);
+      return { code: 500, message: '상품 상세 페이지 불러오기 오류'}
+    }
   }
 }
 

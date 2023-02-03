@@ -13,31 +13,31 @@ class AdminService {
 
     getMemberList = async () => {
         try {
-            const data = await this.membersRepository.getMemberList();
+            const data = await this.membersRepository.getAllMembers();
             return {code: 200, data}
         } catch (error) {
             console.error(error);
-            return {code: 400, message: '회원 목록 불러오기 오류'}
+            return {code: 500, message: '회원 목록 불러오기 오류'}
         }
     }
 
     getGoodsList = async () => {
         try {
-            const data = await this.goodsRepository.getGoodsList();
+            const data = await this.goodsRepository.getAllGoods();
             return {code: 200, data}
         } catch (error) {
             console.error(error);
-            return {code: 400, message: '상품 목록 불러오기 오류'}
+            return {code: 500, message: '상품 목록 불러오기 오류'}
         }
     }
 
     getOrderList = async () => {
         try {
-            const data = await this.ordersRepository.getOrderList();
+            const data = await this.ordersRepository.getAllOrders();
             return {code: 200, data}
         } catch (error) {
             console.error(error);
-            return {code: 400, message: '주문 목록 불러오기 오류'}
+            return {code: 500, message: '주문 목록 불러오기 오류'}
         }
     }
 
@@ -52,10 +52,11 @@ class AdminService {
                 await this.membersRepository.editMembershipLevel(memberId, afterLevel);
             }
 
-            return {code: 200, message: '등급 조정 완료.'}
+            const data = await this.membersRepository.getAllMembers()
+            return {code: 200, message: '등급 조정 완료.', data};
         } catch (error) {
             console.error(error);
-            return {code: 400, message: '회원 등급 조정에 실패하였습니다.'}
+            return {code: 500, message: '회원 등급 조정에 실패하였습니다.'}
         }
     }
 
@@ -74,7 +75,7 @@ class AdminService {
             return {code: 200, message: '상품 추가 완료'}
         } catch (error) {
             console.error(error);
-            return {code: 400, message: '상품 추가 실패'}
+            return {code: 500, message: '상품 추가 실패'}
         }
     }
 
@@ -119,7 +120,7 @@ class AdminService {
             return {code: 200, message: '상품 수정 완료.'}
         } catch (error) {
             console.error(error);
-            return {code: 400, message: '상품 수정 실패'}
+            return {code: 500, message: '상품 수정 실패'}
         }
     }
 
@@ -134,7 +135,7 @@ class AdminService {
             return {code: 200, message: '상품 삭제 완료.'}
         } catch (error) {
             console.error(error);
-            return {code: 400, message: '상품 삭제 실패'}
+            return {code: 500, message: '상품 삭제 실패'}
         }
     }
 
@@ -154,7 +155,7 @@ class AdminService {
             return {code: 200, message: '주문 완료'}
         } catch (error) {
             console.error(error);
-            return {code: 400, message: '주문 완료 실패'}
+            return {code: 500, message: '주문 완료 실패'}
         }
     }
 

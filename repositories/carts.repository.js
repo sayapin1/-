@@ -27,6 +27,13 @@ class CartsRepository {
         }
       })
     }
+
+    //주문완료시 장바구니 상품 삭제하기
+  deleteCart = async (cartId) => {
+    await this.cartsModel.destroy({
+      where: {id: cartId}
+    })
+  }
 }
 
 module.exports = CartsRepository

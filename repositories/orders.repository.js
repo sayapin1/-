@@ -3,7 +3,7 @@ class OrdersRepository {
         this.ordersModel = ordersModel
     }
 
-    getOrderList = async () => {
+    getAllOrders = async () => {
         return await this.ordersModel.findAll()
     }
 

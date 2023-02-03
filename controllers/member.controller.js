@@ -4,30 +4,34 @@ class MemberController{
   memberService = new MemberService()
   //장바구니
   getCartList = async(req, res, next) => {
-    const memberId = 1
-    const cartList = await this.memberService.getCartList(memberId)
+    const memberId = req.authInfo.id
+    const response = await this.memberService.getCartList(memberId)
 
-    return res.status(200).json({cartList})
+    if (response.data) {
+            return res.status(response.code).json({data: response.data});
+        } else {
+            return res.status(response.code).json({message: response.message});
+        }
   }
 
   //장바구니 추가
   addCartList = async(req, res, next) => {
-    const memberId = 1;
+    const memberId = req.authInfo.id;
     const {goodsId} = req.params;
     const {quantity} = req.body;
 
-    await this.memberService.addCartList(memberId, goodsId, quantity);
+    const response = await this.memberService.addCartList(memberId, goodsId, quantity);
 
-    return res.status(200).json({msg:'장바구니 추가 완료'})
+    return res.status(response.code).json({message: response.message});
   }
 
   //장바구니 주문
   orderCartList = async(req, res, next) => {
     const {cartId} = req.params;
     
-    await this.memberService.orderCartList(cartId)
+    const response = await this.memberService.orderCartList(cartId)
 
-    return res.status(200).json({msg:'장바구니 주문 완료'})
+    return res.status(response.code).json({message: response.message});
   }
 
 

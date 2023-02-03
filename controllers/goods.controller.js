@@ -5,18 +5,26 @@ class GoodsController{
 
   //상품목록
   getGoodsList = async(req, res, next) => {
-    const goodsList = await this.goodsService.getGoodsList()
+    const response = await this.goodsService.getGoodsList()
 
-    return res.status(200).json({goodsList})
+    if (response.data) {
+            return res.status(response.code).json({data: response.data});
+        } else {
+            return res.status(response.code).json({message: response.message});
+        }
   }
 
   //상품상세페이지
   getGoodsDetail = async(req,res,next)=>{
     const {goodsId} = req.params;
     
-    const goodsDetail =await this.goodsService.getGoodsDetail(goodsId)
+    const response =await this.goodsService.getGoodsDetail(goodsId)
 
-    return res.status(200).json({goodsDetail})
+    if (response.data) {
+            return res.status(response.code).json({data: response.data});
+        } else {
+            return res.status(response.code).json({message: response.message});
+        }
   }
 }
 

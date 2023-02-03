@@ -4,7 +4,7 @@ class GoodsRepository {
     }
 
 
-    getGoodsList = async () => {
+    getAllGoods = async () => {
         return await this.goodsModel.findAll()
     }
 

@@ -9,6 +9,6 @@ const authToken = require("../middlewares/auth-token");
 router.post('/cart/:goodsId', authToken, memberController.addCartList);
 
 //4. 장바구니 주문
-router.post('/cart/order/:cartId', authToken, memberController.orderCartList);
+router.post('/cart/:cartId/order', authToken, memberController.orderCartList);
 
 module.exports = router
