@@ -6,16 +6,12 @@ const authRouter = require("./auth/auth.route");
 
 /* GET home page. */
 router.get("/", function (req, res, next) {
-  console.log("cookies:", req.cookies.accessToken);
-
   if (req.cookies.accessToken === undefined) {
-    console.log("이게 나와야지?");
     res.render("index", {
       title: "홈",
       loginId: false,
     });
   } else {
-    console.log("이게 왜 나와?");
     res.render("index", {
       title: "홈",
       loginId: true,

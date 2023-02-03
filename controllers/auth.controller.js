@@ -18,6 +18,7 @@ class AuthController {
       if (typeof auth.message !== "undefined") {
         return res.status(400).json({ errorMessage: auth.message });
       }
+
       res.status(201).redirect("/login");
     } catch (error) {
       console.log("register erorr - controller");
@@ -76,7 +77,7 @@ class AuthController {
       res.cookie("refreshToken", refreshToken);
       console.log("로그인 정상");
       // console.log("data :", data);
-      res.status(200).render({ data: req.body });
+      res.status(200).redirect("/");
     } catch (erorr) {
       console.log(erorr);
       if (erorr.message === "ID Error") {

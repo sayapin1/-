@@ -5,11 +5,13 @@ class AuthRepository {
 
   createMember = async (loginId, encryptPassword, memberName) => {
     try {
+      console.log(1);
       const member = await this.membersModel.create({
         loginId,
         loginPw: encryptPassword,
         memberName,
       });
+
       return member;
     } catch (erorr) {
       console.log("register error - repository");

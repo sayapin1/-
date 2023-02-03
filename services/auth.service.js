@@ -44,6 +44,7 @@ class AuthService {
           errorMessage: "이미 가입된 아이디가 있습니다",
         };
       }
+
       const encryptPassword = await bcrypt.hash(loginPw, saltRounds);
       const auth = await this.authRepository.createMember(
         loginId,
@@ -52,7 +53,7 @@ class AuthService {
       );
       return auth;
     } catch (erorr) {
-      console.log(erorr);
+      console.log("여기에러?:", erorr);
       console.log("register error - service");
       return {
         code: 400,
