@@ -6,7 +6,6 @@ class AuthController {
 
   // 회원가입
   registerMember = async (req, res, next) => {
-    console.log("이건 뜨겠지4");
     try {
       const { loginId, loginPw, check_password, memberName } = req.body;
 
@@ -16,12 +15,10 @@ class AuthController {
         check_password,
         memberName
       );
-      if (typeof auth.errorMessage !== "undefined") {
-        return res.status(auth.code).json({ errorMessage: auth.errorMessage });
+      if (typeof auth.message !== "undefined") {
+        return res.status(400).json({ errorMessage: auth.message });
       }
-      res
-        .status(201)
-        .json({ message: "회원가입에 성공하였습니다.", data: auth });
+      res.status(201).redirect("/login");
     } catch (error) {
       console.log("register erorr - controller");
       res.status(400).json({ errorMessage: " 요청이 올바르지 않습니다." });
@@ -37,10 +34,9 @@ class AuthController {
           .status(400)
           .json({ errorMessage: "요청이 올바르지 않습니다." });
       }
-      res.status(200).render("mypage", {
+      res.status(200).render("head", {
         data: auth,
         loginId: auth.id,
-        memberName: auth.memberName,
       });
     } catch (erorr) {
       res.status(400).json({ errorMessage: "요청이 올바르지 않습니다." });
@@ -52,8 +48,10 @@ class AuthController {
       const { loginId, loginPw } = req.body;
 
       if (typeof req.cookies.accessToken !== "undefined") {
-        res.status(400).json({ errorMessage: "이미 로그인 되어 있습니다." });
-        res.status(400).redirect("/");
+        // res.status(400).json({ errorMessage: "이미 로그인 되어 있습니다." });
+        // res.status(400).redirect("/");
+        alert("이미 로그인 되어 있습니다.");
+        throw new Error("Login Error");
       }
 
       if (!loginId || !loginPw) {
@@ -62,22 +60,23 @@ class AuthController {
           .json({ errorMessage: "정보가 유효하지 않습니다." });
       }
 
-      const auth = await this.authService.loginMember(loginId, loginPw);
+      const authInfo = await this.authService.loginMember(loginId, loginPw);
 
-      if (typeof auth.message !== "undefined") {
-        if (auth.message === "ID Error") {
-          return res
-            .status(404)
-            .json({ errorMessage: "아이디가 존재하지 않습니다." });
-        } else if (auth.message === "Password Error") {
-          return res.status(400).json({ errorMessage: "비밀번호가 틀립니다." });
-        }
+      if (typeof authInfo.message !== "undefined") {
+        throw authInfo;
+        // if (auth.message === "ID Error") {
+        //   return res.status(404).alert("아이디가 존재하지 않습니다.");
+        // } else if (auth.message === "Password Error") {
+        //   return res.status(400).alert("비밀번호가 틀렸습니다.");
+        // }
       }
 
-      const [accessToken, refreshToken] = auth;
+      const [accessToken, refreshToken] = authInfo;
       res.cookie("accessToken", accessToken);
       res.cookie("refreshToken", refreshToken);
-      res.status(200).json({ message: "로그인 성공" });
+      console.log("로그인 정상");
+      res.status(200).redirect("/", { data: authInfo.loginId });
+      console.log("data :",data);
     } catch (erorr) {
       console.log(erorr);
       if (erorr.message === "ID Error") {
