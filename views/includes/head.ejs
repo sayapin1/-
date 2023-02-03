@@ -18,7 +18,7 @@
       crossorigin="anonymous" />
     <link rel="stylesheet" href="/css/image_slide.css" />
     <link rel="stylesheet" href="/css/index.css" />
-    <title>SOSAM</title>
+    <title><%= title %></title>
     <style>
       * {
         font-family: "Dongle", sans-serif;
@@ -155,8 +155,17 @@
       }
 
       .card {
+        width: 30%;
+        display: flex;
+        flex-direction: column;
+
         margin: 0 auto;
-        margin-top: 100px;
+        margin-top: 150px;
+        padding: 15px;
+
+        border: 1px solid lavender;
+        border-radius: 20px;
+        box-shadow: 5px 5px 5px lightgray;
       }
 
       .title {
@@ -201,7 +210,7 @@
         <a href="">로그아웃</a>
       </button>
       <button type="button" class="btn btn-dark">
-        <a href="/api/users">마이페이지</a>
+        <a href="/api/auth/mypage">마이페이지</a>
       </button>
       <% } else if (!loginId) { %>
       <button type="button" class="btn btn-dark">

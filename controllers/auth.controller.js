@@ -25,22 +25,29 @@ class AuthController {
       res.status(400).json({ errorMessage: " 요청이 올바르지 않습니다." });
     }
   };
-  // 인증
+
+  // 마이페이지
   getMember = async (req, res, next) => {
     try {
       const { loginId } = req.authInfo;
-      const auth = await this.authService.findMember(loginId);
-      if (typeof auth.message !== "undefined") {
+      console.log("loginId:", loginId);
+      const member = await this.authService.findMember(loginId);
+      console.log("member : ", member);
+
+      if (typeof member.message !== "undefined") {
         return res
           .status(400)
-          .json({ errorMessage: "요청이 올바르지 않습니다." });
+          .json({ errorMessage: "요청이 올바르지 않습니다1." });
       }
-      res.status(200).render("head", {
-        data: auth,
-        loginId: auth.id,
+
+      res.status(200).render("mypage", {
+        data: member,
+        loginId: true,
+        title: "마이페이지",
       });
     } catch (erorr) {
-      res.status(400).json({ errorMessage: "요청이 올바르지 않습니다." });
+      console.log("error :", erorr);
+      res.status(400).json({ errorMessage: "요청이 올바르지 않습니다2." });
     }
   };
 

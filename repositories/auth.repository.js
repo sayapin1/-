@@ -26,6 +26,7 @@ class AuthRepository {
         where: { loginId: loginId },
       });
 
+      console.log("member:", member);
       return member;
     } catch (erorr) {
       console.log(erorr);
