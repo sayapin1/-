@@ -1,11 +1,11 @@
-const MemberService = require('../services/member.service')
+const CartService = require('../services/cart.service')
 
-class MemberController{
-  memberService = new MemberService()
+class CartController {
+ cartService = new CartService()
   //장바구니
   getCartList = async(req, res, next) => {
     const memberId = req.authInfo.id
-    const response = await this.memberService.getCartList(memberId)
+    const response = await this.cartService.getCartList(memberId)
 
     if (response.data) {
             return res.status(response.code).json({data: response.data});
@@ -20,7 +20,7 @@ class MemberController{
     const {goodsId} = req.params;
     const {quantity} = req.body;
 
-    const response = await this.memberService.addCartList(memberId, goodsId, quantity);
+    const response = await this.cartService.addCartList(memberId, goodsId, quantity);
 
     return res.status(response.code).json({message: response.message});
   }
@@ -29,7 +29,7 @@ class MemberController{
   orderCartList = async(req, res, next) => {
     const {cartId} = req.params;
     
-    const response = await this.memberService.orderCartList(cartId)
+    const response = await this.cartService.orderCartList(cartId)
 
     return res.status(response.code).json({message: response.message});
   }
@@ -37,4 +37,4 @@ class MemberController{
 
 }
 
-module.exports = MemberController;
+module.exports = CartController;

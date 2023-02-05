@@ -1,7 +1,7 @@
 const express = require("express")
 const router = express.Router()
 
-const MemberController = require('../controllers/member.controller')
+const MemberController = require('../controllers/cart.controller')
 const memberController = new MemberController()
 const authToken = require("../middlewares/auth-token");
 

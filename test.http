@@ -1,0 +1,82 @@
+###회원가입
+POST localhost:3000/api/auth/register
+Content-Type: application/json
+
+{
+  "loginId": "id4",
+  "loginPw": "@1234Aa",
+  "checkPassword": "@1234Aa",
+  "memberName": "드봉"
+}
+
+###로그인
+POST localhost:3000/api/auth/login
+Content-Type: application/json
+
+{
+  "loginId": "id4",
+  "loginPw": "@1234Aa"
+}
+
+###로그아웃
+POST localhost:3000/api/auth/logout
+
+###장바구니 추가하기
+POST localhost:3000/api/member/cart/1
+Content-Type: application/json
+
+{
+  "quantity": 2
+}
+
+###장바구니 불러오기
+GET localhost:3000/cart
+
+###장바구니 상품 주문하기
+POST localhost:3000/api/member/cart/5/order
+
+###전체 상품 목록 불러오기
+GET localhost:3000/goodsList
+
+###상품 상세페이지
+GET localhost:3000/goodsList/1
+
+###회원 명단 불러오기
+GET localhost:3000/admin/member
+
+### 회원 등급 조정
+PUT localhost:3000/api/admin/member/3
+
+### 상품 목록 불러오기(관리자페이지)
+GET localhost:3000/admin/goods
+
+### 상품 추가
+POST localhost:3000/api/admin/goods
+Content-Type: application/json
+
+{
+  "goodsName":  "밀키트2",
+  "price": 10000,
+  "detail": "이것은 밀키트2",
+  "photo": "이것은 사진"
+}
+
+### 상품 수정
+PUT localhost:3000/api/admin/goods/2
+Content-Type: application/json
+
+{
+  "goodsName": "",
+  "price": 30000,
+  "detail": "",
+  "photo": ""
+}
+
+### 상품 삭제
+DELETE localhost:3000/api/admin/goods/5
+
+### 주문 내역 불러오기
+GET localhost:3000/admin/order
+
+### 주문 완료하기
+PUT localhost:3000/api/admin/order/2

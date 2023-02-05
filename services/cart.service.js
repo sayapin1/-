@@ -8,7 +8,7 @@ const CartsRepository = require('../repositories/carts.repository')
 const {Orders} = require('../models')
 const {Carts} = require('../models')
 
-class MemberService {
+class CartService {
   ordersRepository = new OrdersRepository(Orders);
   cartsRepository = new CartsRepository(Carts);
 
@@ -57,4 +57,4 @@ class MemberService {
   }
 }
 
-module.exports = MemberService
+module.exports = CartService

@@ -41,7 +41,7 @@ class AuthService {
         encryptPassword,
         memberName
       );
-      return { code:200, message: '회원 가입에 성공하였습니다.'};
+      return { code:201, message: '회원 가입에 성공하였습니다.'};
     } catch (error) {
       console.error(error);
       return {code: 500, message: "요청이 올바르지 않습니다."};
@@ -50,29 +50,29 @@ class AuthService {
 
   findMember = async (loginId) => {
     try {
-      const member = await this.membersRepository.findMember(loginId);
-      return member;
+      const data = await this.membersRepository.findMember(loginId);
+      return {code: 200, data};
     } catch (error) {
-      return error;
+      console.error(error);
+      return {code: 500, message: "요청이 올바르지 않습니다."};
     }
   };
 
   loginMember = async (loginId, loginPw) => {
     try {
       if (!loginId || !loginPw) {
-        return {code: 400, message: "정보가 유효하지 않습니다." };
+        return {code: 400, message: "ID와 비밀번호를 모두 입력해주세요" };
       }
 
       const authInfo = await this.membersRepository.loginMember(loginId);
       if ( !authInfo){
-        return {code: 400, message: "ID나 패스워드를 확인해주세요." };
+        return {code: 400, message: "ID나 비밀번호를 확인해주세요." };
       }
 
       const check = await bcrypt.compare(loginPw, authInfo.loginPw);
-
       // 비밀번호 틀렸을 경우
       if (!check) {
-        return {code: 400, message: "ID나 패스워드를 확인해주세요." };
+        return {code: 400, message: "ID나 비밀번호를 확인해주세요." };
       }
 
       const accessToken = jwt.sign(

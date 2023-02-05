@@ -5,11 +5,39 @@ require("dotenv").config();
 class AuthController {
   authService = new AuthService();
 
+  //로그인페이지
+    getLoginPage = (req, res, next) => {
+        if (req.cookies.accessToken === undefined) {
+    res.render("login", {
+      title: "로그인",
+      loginId: false,
+    });
+  } else {
+    res.render("login", {
+      title: "로그인",
+      loginId: true,
+    });
+  }
+    }
+
+    //회원가입페이지
+    getRegisterPage = (req, res, next) => {
+        if (req.cookies.accessToken === undefined) {
+    res.render("register", {
+      title: "회원가입",
+      loginId: false,
+    });
+  } else {
+    res.render("register", {
+      title: "회원가입",
+      loginId: true,
+    });
+  }
+    }
+
   // 회원가입
   registerMember = async (req, res, next) => {
-
-    try {
-      const { loginId, loginPw, check_password, memberName } = req.body;
+      const { loginId, loginPw, checkPassword, memberName } = req.body;
 
       const response = await this.authService.registerMember(
         loginId,
@@ -17,75 +45,28 @@ class AuthController {
         checkPassword,
         memberName
       );
-      if (typeof auth.message !== "undefined") {
-        return res.status(400).json({ errorMessage: auth.message });
+
+      if (response.code !== 201) {
+        return res.status(response.code).send("<script>alert(response.message); location.href='/register'</script>")
       }
 
-      console.log("auth.errorMessage:", auth.errorMessage);
-
-      if (auth.errorMessage === "이미 가입된 아이디가 있습니다") {
-        return res
-          .status(400)
-          .send(
-            "<script>alert('이미 가입된 아이디가 있습니다'); location.href='/register'</script>"
-          );
-      } else if (auth.errorMessage === "아이디가 작성 형식과 맞지 않습니다.") {
-        return res
-          .status(400)
-          .send(
-            "<script>alert('아이디가 작성 형식과 맞지 않습니다.');location.href='/register'</script>"
-          );
-      } else if (
-        auth.errorMessage === "비밀번호가 작성 형식과 맞지 않습니다."
-      ) {
-        return res
-          .status(400)
-          .send(
-            "<script>alert('비밀번호가 작성 형식과 맞지 않습니다.');location.href='/register'</script>"
-          );
-      } else if (
-        auth.errorMessage === "비밀번호가 비밀번호 확인란과 다릅니다."
-      ) {
-        return res
-          .status(400)
-          .send(
-            "<script>alert('비밀번호가 비밀번호 확인란과 다릅니다.');location.href='/register'</script>"
-          );
-      } else if (auth.errorMessage === "이름이 입력되지 않았습니다.") {
-        return res
-          .status(400)
-          .send(
-            "<script>alert('이름이 입력되지 않았습니다.');location.href='/register'</script>"
-          );
-      }
-      res.status(201).redirect("/login");
-    } catch (error) {
-      console.log("register erorr - controller");
-      res.status(400).json({ errorMessage: " 요청이 올바르지 않습니다." });
-    }
+      return res.status(response.code).redirect("/login");
   };
 
   // 마이페이지
   getMember = async (req, res, next) => {
-    try {
       const { loginId } = req.authInfo;
-      const member = await this.authService.findMember(loginId);
+      const response = await this.authService.findMember(loginId);
 
-      if (typeof member.message !== "undefined") {
-        return res
-          .status(400)
-          .json({ errorMessage: "요청이 올바르지 않습니다1." });
+      if (response.code !== 200) {
+        return res.status(response.code).json({message: response.message})
       }
 
-      res.status(200).render("mypage", {
-        data: member,
+      return res.status(response.code).render("mypage", {
+        data: response,
         loginId: true,
         title: "마이페이지",
       });
-    } catch (error) {
-      res.status(400).json({ errorMessage: "요청이 올바르지 않습니다." });
-
-    }
   };
 
   loginAuth = async (req, res, next) => {
@@ -98,33 +79,7 @@ class AuthController {
       //   throw new Error("Login Error");
       // }
 
-      if (!loginId || !loginPw) {
-        return res
-          .status(400)
-          .send(
-            '<script>alert("아이디, 비밀번호를 입력해주세요.");  location.href="/login"</script>'
-          );
-      }
-
       const authInfo = await this.authService.loginMember(loginId, loginPw);
-
-      if (authInfo === null) {
-        console.log("아이디가 존재하지 않습니다.");
-        return res
-          .status(404)
-          .send(
-            '<script>alert("아이디가 존재하지 않습니다."); location.href="/login"</script>'
-          );
-      }
-
-      if (authInfo === false) {
-        console.log("비밀번호를 틀렸습니다.");
-        return res
-          .status(404)
-          .send(
-            '<script>alert("비밀번호를 틀렸습니다.");  location.href="/login"</script>'
-          );
-      }
 
       // if (typeof authInfo.message !== "undefined") {
       //   throw authInfo;
@@ -134,24 +89,18 @@ class AuthController {
       //   //   return res.status(400).alert("비밀번호가 틀렸습니다.");
       //   // }
       // }
+    if(authInfo.code !== 200){
+      return res.status(authInfo.code).send(
+            '<script>alert(authInfo.message); location.href="/login"</script>'
+          )
+    }
 
-      const [accessToken, refreshToken] = authInfo;
+      const {accessToken, refreshToken} = authInfo;
       res.cookie("accessToken", accessToken);
       res.cookie("refreshToken", refreshToken);
-      console.log("로그인 정상");
+      console.log(authInfo.message);
       // console.log("data :", data);
-      res.status(200).redirect("/");
-    } catch (erorr) {
-      // if (erorr.message === "ID Error") {
-      //   res.status(404).json({ errorMessage: "아이디가 존재하지 않습니다." });
-      // } else if (erorr.message === "Password Error") {
-      //   res.status(400).json({ errorMessage: "비밀번호가 틀립니다." });
-      // } else if (erorr.message === "Login Error") {
-      //   res.status(400).redirect("/"); // 이미 로그인 상태 /mainpage 로 이동 (임시 /)
-      // } else {
-      res.status(400).redirect("/login");
-      // }
-    }
+      res.status(authInfo.code).redirect("/");
   };
 
   // 로그아웃
