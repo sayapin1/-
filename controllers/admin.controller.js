@@ -3,15 +3,31 @@ const AdminService = require('../services/admin.service');
 class AdminController {
     adminService = new AdminService();
 
+    getAdminPage = async (req, res, next) => {
+        const {level} = req.authInfo
+        if ( level !== 1) {
+            return res.status(400).json({message: "권한이 없습니다."})
+        }
+
+        res.render("admin", {
+            loginId: true,
+            title: "adminPage"
+        })
+    }
+
     getMemberList = async (req, res, next) => {
         const {level} = req.authInfo
-        if ( level === 0) {
+        if ( level !== 1) {
             return res.status(400).json({message: "권한이 없습니다."})
         }
 
         const response = await this.adminService.getMemberList()
         if (response.data) {
-            return res.status(response.code).json({data: response.data});
+            return res.status(response.code).render("manageMembers", {
+                data: response.data,
+                loginId: true,
+                title: "manage members"
+            });
         } else {
             return res.status(response.code).json({message: response.message});
         }
@@ -19,13 +35,16 @@ class AdminController {
 
     getGoodsList = async (req, res, next) => {
         const {level} = req.authInfo
-        if ( level === 0) {
+        if ( level !== 1) {
             return res.status(400).json({message: "권한이 없습니다."})
         }
 
         const response = await this.adminService.getGoodsList()
         if (response.data) {
-            return res.status(response.code).json({data: response.data});
+            return res.status(response.code).render("manageGoods", {
+                data: response.data,
+                loginId: true
+            });
         } else {
             return res.status(response.code).json({message: response.message});
         }
@@ -33,13 +52,16 @@ class AdminController {
 
     getOrderList = async (req, res, next) => {
         const {level} = req.authInfo
-        if ( level === 0) {
+        if ( level !== 1) {
             return res.status(400).json({message: "권한이 없습니다."})
         }
 
         const response = await this.adminService.getOrderList()
         if (response.data) {
-            return res.status(response.code).json({data: response.data});
+            return res.status(response.code).render("manageOrders", {
+                data: response.data,
+                loginId: true
+            });
         } else {
             return res.status(response.code).json({message: response.message});
         }

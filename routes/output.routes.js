@@ -12,6 +12,9 @@ const authController = new AuthController();
 
 const authToken = require("../middlewares/auth-token");
 
+//관리자페이지 불러오기
+router.get('/admin', authToken, adminController.getAdminPage)
+
 //회원 명단 불러오기
 router.get('/admin/member', authToken, adminController.getMemberList);
 

@@ -45,7 +45,7 @@ GET localhost:3000/goodsList/1
 GET localhost:3000/admin/member
 
 ### 회원 등급 조정
-PUT localhost:3000/api/admin/member/3
+PUT localhost:3000/api/admin/member/1
 
 ### 상품 목록 불러오기(관리자페이지)
 GET localhost:3000/admin/goods
