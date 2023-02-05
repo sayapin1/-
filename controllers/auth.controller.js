@@ -1,3 +1,4 @@
+const e = require("express");
 const AuthService = require("../services/auth.service");
 require("dotenv").config();
 
@@ -19,6 +20,43 @@ class AuthController {
         return res.status(400).json({ errorMessage: auth.message });
       }
 
+      console.log("auth.errorMessage:", auth.errorMessage);
+
+      if (auth.errorMessage === "이미 가입된 아이디가 있습니다") {
+        return res
+          .status(400)
+          .send(
+            "<script>alert('이미 가입된 아이디가 있습니다'); location.href='/register'</script>"
+          );
+      } else if (auth.errorMessage === "아이디가 작성 형식과 맞지 않습니다.") {
+        return res
+          .status(400)
+          .send(
+            "<script>alert('아이디가 작성 형식과 맞지 않습니다.');location.href='/register'</script>"
+          );
+      } else if (
+        auth.errorMessage === "비밀번호가 작성 형식과 맞지 않습니다."
+      ) {
+        return res
+          .status(400)
+          .send(
+            "<script>alert('비밀번호가 작성 형식과 맞지 않습니다.');location.href='/register'</script>"
+          );
+      } else if (
+        auth.errorMessage === "비밀번호가 비밀번호 확인란과 다릅니다."
+      ) {
+        return res
+          .status(400)
+          .send(
+            "<script>alert('비밀번호가 비밀번호 확인란과 다릅니다.');location.href='/register'</script>"
+          );
+      } else if (auth.errorMessage === "이름이 입력되지 않았습니다.") {
+        return res
+          .status(400)
+          .send(
+            "<script>alert('이름이 입력되지 않았습니다.');location.href='/register'</script>"
+          );
+      }
       res.status(201).redirect("/login");
     } catch (error) {
       console.log("register erorr - controller");
@@ -30,9 +68,7 @@ class AuthController {
   getMember = async (req, res, next) => {
     try {
       const { loginId } = req.authInfo;
-      console.log("loginId:", loginId);
       const member = await this.authService.findMember(loginId);
-      console.log("member : ", member);
 
       if (typeof member.message !== "undefined") {
         return res
@@ -65,16 +101,36 @@ class AuthController {
       if (!loginId || !loginPw) {
         return res
           .status(400)
-          .json({ errorMessage: "정보가 유효하지 않습니다." });
+          .send(
+            '<script>alert("아이디, 비밀번호를 입력해주세요.");  location.href="/login"</script>'
+          );
       }
 
       const authInfo = await this.authService.loginMember(loginId, loginPw);
+
+      if (authInfo === null) {
+        console.log("아이디가 존재하지 않습니다.");
+        return res
+          .status(404)
+          .send(
+            '<script>alert("아이디가 존재하지 않습니다."); location.href="/login"</script>'
+          );
+      }
+
+      if (authInfo === false) {
+        console.log("비밀번호를 틀렸습니다.");
+        return res
+          .status(404)
+          .send(
+            '<script>alert("비밀번호를 틀렸습니다.");  location.href="/login"</script>'
+          );
+      }
 
       // if (typeof authInfo.message !== "undefined") {
       //   throw authInfo;
       //   // if (auth.message === "ID Error") {
       //   //   return res.status(404).alert("아이디가 존재하지 않습니다.");
-      //   // } else if (auth.message === "Password Error") {
+      //   // } else if (auth.message === "Passwrd Error") {
       //   //   return res.status(400).alert("비밀번호가 틀렸습니다.");
       //   // }
       // }
@@ -86,16 +142,15 @@ class AuthController {
       // console.log("data :", data);
       res.status(200).redirect("/");
     } catch (erorr) {
-      console.log(erorr);
-      if (erorr.message === "ID Error") {
-        res.status(404).json({ errorMessage: "아이디가 존재하지 않습니다." });
-      } else if (erorr.message === "Password Error") {
-        res.status(400).json({ errorMessage: "비밀번호가 틀립니다." });
-      } else if (erorr.message === "Login Error") {
-        res.status(400).redirect("/"); // 이미 로그인 상태 /mainpage 로 이동 (임시 /)
-      } else {
-        res.status(400).redirect("/");
-      }
+      // if (erorr.message === "ID Error") {
+      //   res.status(404).json({ errorMessage: "아이디가 존재하지 않습니다." });
+      // } else if (erorr.message === "Password Error") {
+      //   res.status(400).json({ errorMessage: "비밀번호가 틀립니다." });
+      // } else if (erorr.message === "Login Error") {
+      //   res.status(400).redirect("/"); // 이미 로그인 상태 /mainpage 로 이동 (임시 /)
+      // } else {
+      res.status(400).redirect("/login");
+      // }
     }
   };
 

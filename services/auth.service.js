@@ -76,14 +76,17 @@ class AuthService {
     try {
       const authInfo = await this.authRepository.loginMember(loginId);
 
+      // 아이디 틀렸을 경우
       if (!authInfo) {
-        throw new Error("ID Error");
+        return authInfo;
       }
 
       const check = await bcrypt.compare(loginPw, authInfo.loginPw);
 
+      // 비밀번호 틀렸을 경우
       if (!check) {
-        return new Error("Password Error");
+        return check;
+        // return new Error("Password Error");
       }
 
       const accessToken = jwt.sign(
