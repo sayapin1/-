@@ -5,12 +5,12 @@ const authToken = (req, res, next) => {
   try {
     const { accessToken, refreshToken } = req.cookies;
 
-    if (!accessToken || !refreshToken) throw new Error("Login Error");
+    if (!accessToken || !refreshToken) throw new Error("LogIn Error");
 
     const isAccessTokenValidate = validateAccessToken(accessToken);
     const isRefreshTokenValidate = validateRefreshToken(refreshToken);
 
-    if (!isRefreshTokenValidate) throw new Error("Login Error");
+    if (!isRefreshTokenValidate) throw new Error("LogiN Error");
 
     if (!isAccessTokenValidate) {
       const newAccessToken = jwt.sign(

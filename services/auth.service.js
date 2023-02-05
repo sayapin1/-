@@ -70,6 +70,7 @@ class AuthService {
 
       const check = await bcrypt.compare(loginPw, authInfo.loginPw);
 
+      // 비밀번호 틀렸을 경우
       if (!check) {
         return {code: 400, message: "ID나 패스워드를 확인해주세요." };
       }

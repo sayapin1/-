@@ -1,0 +1,17 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+textarea {
+  margin-top: 30px;
+}
+
+.bolder {
+  width: 770px;
+  height: 100px;
+}
+
+.group {
+  margin-top: 10px;
+}

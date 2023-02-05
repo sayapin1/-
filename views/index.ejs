@@ -1,12 +1,62 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-    <h1>임시 홈페이지</h1>
+<%- include('includes/head.ejs') %>
+
+  <main>
+    <div class="intro" style="width: 100%; height: 100%;">
+    <h1>저희 SOSAM 은...</h1>
+    <span>어디서나 간단하게 조리할 수 있는 밀키트를 만듭니다.</span>
+    <span>캡핑, 집들이, 집밥...</span>
+    <span>맛있는 음식은 언제나 옳습니다.</span>
+    </div>
+
+    <div class="recommended_product">
+      <h1>추천상품</h1>
+        <div id="homepage-slider" class="st-slider">
+
+            <input type="radio" class="cs_anchor radio" name="slider" id="slide1"/>
+            <input type="radio" class="cs_anchor radio" name="slider" id="slide2"/>
+            <input type="radio" class="cs_anchor radio" name="slider" id="slide3"/>
+            <input type="radio" class="cs_anchor radio" name="slider" id="play1" checked=""/>
+
+            <div class="images" style="height: 300px;">
+              <div class="images-inner">
+                <div class="image-slide">
+                  <div class="image bg-yellow" >
+                    <img src="https://thumbnail9.coupangcdn.com/thumbnails/remote/230x230ex/image/retail/images/7936971038794321-649da17f-b078-44b0-926f-f0c4ff5b345b.jpg" alt="" style="height: 300px;">
+                  </div>
+                </div>
+                <div class="image-slide">
+                  <div class="image bg-blue" >
+                    <img src="https://thumbnail10.coupangcdn.com/thumbnails/remote/230x230ex/image/retail/images/3236150887609657-40c02ffb-28fe-4bdd-9490-2a64ce1b2efc.jpg" alt="" style="height: 300px;">
+                  </div>
+                </div>
+                <div class="image-slide">
+                  <div class="image bg-red" >
+                    <img src="https://thumbnail9.coupangcdn.com/thumbnails/remote/230x230ex/image/retail/images/330370086218243-b3e876e4-36d1-411d-8a08-c45e1ee590a1.jpg" alt="" style="height: 300px;"></div>
+                </div>
+              </div>
+            </div>
+          
+            <div class="labels">
+                <label for="slide1" class="label">호로록 우삼겹 떡볶이</label>
+                <label for="slide2" class="label">소고기 샤브샤브</label>
+                <label for="slide3" class="label">감바스 알 아히요</label>
+              
+                <div class="fake-radio">
+                  <label for="slide1" class="radio-btn"></label>
+                  <label for="slide2" class="radio-btn"></label>
+                  <label for="slide3" class="radio-btn"></label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button type="submit" class="btn" id="login" style="margin-top: 50px;">구매하러가기</button>
+    
+    </div>
+  </main>
   </body>
-</html>
+  
+  <script src="/js/users/login.js"></script>
+  
+
+  </html>
