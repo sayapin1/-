@@ -7,9 +7,11 @@ const CartsRepository = require('../repositories/carts.repository')
 // const {Goods} = require('../models')
 const {Orders} = require('../models')
 const {Carts} = require('../models')
+const {Goods} = require('../models')
+const {Members} = require('../models')
 
 class CartService {
-  ordersRepository = new OrdersRepository(Orders);
+  ordersRepository = new OrdersRepository(Orders, Goods, Members);
   cartsRepository = new CartsRepository(Carts);
 
   //장바구니

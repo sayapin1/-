@@ -22,7 +22,7 @@ Content-Type: application/json
 POST localhost:3000/api/auth/logout
 
 ###장바구니 추가하기
-POST localhost:3000/api/member/cart/1
+POST localhost:3000/api/member/cart/2
 Content-Type: application/json
 
 {
@@ -33,7 +33,7 @@ Content-Type: application/json
 GET localhost:3000/cart
 
 ###장바구니 상품 주문하기
-POST localhost:3000/api/member/cart/5/order
+POST localhost:3000/api/member/cart/2/order
 
 ###전체 상품 목록 불러오기
 GET localhost:3000/goodsList

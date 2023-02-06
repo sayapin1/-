@@ -4,10 +4,10 @@ class AdminController {
     adminService = new AdminService();
 
     getAdminPage = async (req, res, next) => {
-        const {level} = req.authInfo
-        if ( level !== 1) {
-            return res.status(400).json({message: "권한이 없습니다."})
-        }
+        // const {level} = req.authInfo
+        // if ( level !== 1) {
+        //     return res.status(400).json({message: "권한이 없습니다."})
+        // }
 
         res.render("admin", {
             loginId: true,
@@ -16,10 +16,10 @@ class AdminController {
     }
 
     getMemberList = async (req, res, next) => {
-        const {level} = req.authInfo
-        if ( level !== 1) {
-            return res.status(400).json({message: "권한이 없습니다."})
-        }
+        // const {level} = req.authInfo
+        // if ( level !== 1) {
+        //     return res.status(400).json({message: "권한이 없습니다."})
+        // }
 
         const response = await this.adminService.getMemberList()
         if (response.data) {
@@ -34,16 +34,17 @@ class AdminController {
     }
 
     getGoodsList = async (req, res, next) => {
-        const {level} = req.authInfo
-        if ( level !== 1) {
-            return res.status(400).json({message: "권한이 없습니다."})
-        }
+        // const {level} = req.authInfo
+        // if ( level !== 1) {
+        //     return res.status(400).json({message: "권한이 없습니다."})
+        // }
 
         const response = await this.adminService.getGoodsList()
         if (response.data) {
             return res.status(response.code).render("manageGoods", {
                 data: response.data,
-                loginId: true
+                loginId: true,
+                title: "manage goods"
             });
         } else {
             return res.status(response.code).json({message: response.message});
@@ -51,20 +52,35 @@ class AdminController {
     }
 
     getOrderList = async (req, res, next) => {
-        const {level} = req.authInfo
-        if ( level !== 1) {
-            return res.status(400).json({message: "권한이 없습니다."})
-        }
+        // const {level} = req.authInfo
+        // if ( level !== 1) {
+        //     return res.status(400).json({message: "권한이 없습니다."})
+        // }
 
         const response = await this.adminService.getOrderList()
         if (response.data) {
             return res.status(response.code).render("manageOrders", {
                 data: response.data,
-                loginId: true
+                loginId: true,
+                title: "manage orders"
             });
         } else {
             return res.status(response.code).json({message: response.message});
         }
+    }
+
+    addGoodsPage = async (req, res, next) => {
+        res.render("createGoods", {
+            loginId: true,
+            title: "goods creating page"
+        })
+    }
+
+    editGoodsPage = async (req, res, next) => {
+        res.render("editGoods", {
+            loginId: true,
+            title: "goods editing page"
+        })
     }
 
     editMembershipLevel = async (req, res, next) => {
@@ -74,7 +90,8 @@ class AdminController {
     }
 
     addGoods = async (req, res, next) => {
-        const { goodsName, price, detail, photo } = req.body;
+        const { goodsName, price, detail } = req.body;
+        const photo = "this is photo"
         const response = await this.adminService.addGoods(goodsName, price, detail, photo);
         res.status(response.code).json({ message: response.message });
     }

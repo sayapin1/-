@@ -22,7 +22,7 @@ const authToken = (req, res, next) => {
         },
         process.env.JWT_ACCESS_SECRET,
         {
-          expiresIn: "1h",
+          expiresIn: '1h',
         }
       );
 

@@ -84,7 +84,7 @@ class AuthService {
         },
         process.env.JWT_ACCESS_SECRET,
         {
-          expiresIn: "10m",
+          expiresIn: "1h",
         }
       );
 
@@ -97,7 +97,7 @@ class AuthService {
         },
         process.env.JWT_REFRESH_SECRET,
         {
-          expiresIn: "7d",
+          expiresIn: "12h",
         }
       );
       return { code: 200, accessToken, refreshToken, message: '로그인에 성공하였습니다.' };

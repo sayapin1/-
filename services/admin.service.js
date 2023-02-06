@@ -8,7 +8,7 @@ const {Goods} = require('../models')
 
 class AdminService {
     membersRepository = new MembersRepository(Members);
-    ordersRepository = new OrdersRepository(Orders);
+    ordersRepository = new OrdersRepository(Orders, Members, Goods);
     goodsRepository = new GoodsRepository(Goods);
 
     getMemberList = async () => {
@@ -34,6 +34,7 @@ class AdminService {
     getOrderList = async () => {
         try {
             const data = await this.ordersRepository.getAllOrders();
+            console.log("data:", data)
             return {code: 200, data}
         } catch (error) {
             console.error(error);
@@ -62,7 +63,7 @@ class AdminService {
 
     addGoods = async (goodsName, price, detail, photo) => {
         try {
-            if (!goodsName | !price | !detail | !photo) {
+            if (!goodsName || !price || !detail || !photo) {
                 return {code: 412, message: '모든 정보를 추가해주세요.'}
             }
 

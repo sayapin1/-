@@ -63,7 +63,7 @@ class AuthController {
       }
 
       return res.status(response.code).render("mypage", {
-        data: response,
+        data: response.data.dataValues,
         loginId: true,
         title: "마이페이지",
       });
