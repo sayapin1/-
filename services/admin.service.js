@@ -61,6 +61,19 @@ class AdminService {
         }
     }
 
+    getOneGoods = async (goodsId) => {
+        try {
+            const data = await this.goodsRepository.getOneGoods(goodsId);
+            if (!data) {
+                return {code: 404, message: '상품이 없습니다.'}
+            }
+            return {code: 200, data}
+        } catch (error) {
+            console.error(error);
+            return {code: 500, message: '상품 수정페이지 불러오기 오류'}
+        }
+    }
+
     addGoods = async (goodsName, price, detail, photo) => {
         try {
             if (!goodsName || !price || !detail || !photo) {

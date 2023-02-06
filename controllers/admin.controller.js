@@ -70,14 +70,18 @@ class AdminController {
     }
 
     addGoodsPage = async (req, res, next) => {
-        res.render("createGoods", {
+        res.render("addGoods", {
             loginId: true,
             title: "goods creating page"
         })
     }
 
     editGoodsPage = async (req, res, next) => {
+        const { goodsId } = req.params
+
+        const response = await this.adminService.getOneGoods(goodsId)
         res.render("editGoods", {
+            data: response.data,
             loginId: true,
             title: "goods editing page"
         })

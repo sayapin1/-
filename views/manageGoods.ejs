@@ -12,6 +12,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
         crossorigin="anonymous"></script>
+<script src="/javascripts/manageGoods.js"></script>
 
 <table class="table" style="width: 80%; margin: auto">
     <thead class="table-dark">
@@ -24,6 +25,7 @@
     </thead>
     <tbody>
     <% for ( let i = 0; i < data.length; i++) { %>
+
         <tr>
             <td><%= data.indexOf(data[i]) + 1 %></td>
             <td><%= data[i].goodsName %></td>
@@ -33,7 +35,7 @@
                 </a>
             </td>
             <td>
-                <input type="radio" name="checkbox" value="<%= data[i].id %>">
+                <input type="radio" name="checkbox" id="goodsCheck" value="<%= data[i].id %>">
             </td>
         </tr>
     <% } %>
@@ -42,8 +44,16 @@
 </table>
 
 <div class="buttons-row">
-    <button type="button" class="darkButton" style="margin-right: 5px;" >상품 수정하기</button>
-    <button type="button" class="darkButton" style="margin-left: 5px" onclick="location.href='/admin/addGoods'">상품 추가하기</button>
+    <button type="button" class="darkButton" style="margin-right: 10px;"
+            onclick="deleteGoods()">상품 삭제하기
+    </button>
+
+    <button type="button" class="darkButton" style="margin-right: 5px;"
+            onclick="editGoodsPage()">상품 수정하기
+    </button>
+    <button type="button" class="darkButton" style="margin-left: 5px" onclick="location.href='/admin/addGoods'">상품
+        추가하기
+    </button>
 </div>
 
 

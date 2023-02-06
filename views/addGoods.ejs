@@ -14,29 +14,18 @@
         crossorigin="anonymous"></script>
 <script src="/javascripts/addGoods.js"></script>
 
-<div id="board_write" class="column">
-    <div id="write_area">
-<!--        <form id="createGoods" action="/api/admin/goods" method="post">-->
-            <div id="in_title">
-                <textarea name="goodsName" id="goodsName" rows="1" cols="100" placeholder="상품명" maxlength="100" required></textarea>
-            </div>
+<div class="column">
+    <!--        <form id="createGoods" action="/api/admin/goods" method="post">-->
+    <input type="text" name="goodsName" class="goodsName" id="goodsName" placeholder="상품명"
+              maxlength="100" style="width: 80%; margin-bottom: 20px; font-size: 25px" required/>
 
-            <div id="in_price">
-                <input type="number" name="price" id="price" style="width: 100%" placeholder="상품 가격" maxlength="100" required />
-            </div>
+    <input type="number" class="price" name="price" id="price" style="width: 80%; font-size: 25px" placeholder="상품 가격"
+           maxlength="100" required/>
 
-            <div id="in_content">
-                <textarea name="detail" class="detail" id="detail" cols="100" rows="10" placeholder="상품 상세" required></textarea>
-            </div>
+    <textarea name="detail" class="detail" id="detail" cols="100" rows="10" style="width: 80%; font-size: 25px" placeholder="상품 상세" required></textarea>
 
-<!--            <input type="file" name="photo" id="photo" />-->
-
-            <div class="column">
-                <button type="button" class="darkButton" style="margin: 20px" onclick="addGoods()">상품 추가하기</button>
-            </div>
-<!--        </form>-->
-    </div>
-
+    <button type="button" class="darkButton" style="margin: 20px" onclick="addGoods()">상품 추가하기</button>
+    <!--        </form>-->
 </div>
 
 </body>

@@ -1,7 +1,11 @@
-const addGoods = () => {
+const editGoods = () => {
     const goodsName = document.getElementById('goodsName');
     const price = document.getElementById('price');
     const detail = document.getElementById('detail');
+    const urlList = window.location.href.split('/');
+    console.log('urlList', urlList[5])
+    const goodsId = urlList[5]
+    console.log('goodsId', goodsId)
 
     const req = {
         goodsName: goodsName.value,
@@ -9,8 +13,8 @@ const addGoods = () => {
         detail: detail.value
     }
 
-    fetch(`/api/admin/goods`, {
-        method: 'POST',
+    fetch(`/api/admin/goods/${goodsId}`, {
+        method: 'PUT',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(req)
     })
@@ -27,4 +31,3 @@ const addGoods = () => {
             console.error(error)
         })
 }
-
