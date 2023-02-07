@@ -23,7 +23,19 @@ class GoodsController {
         const response = await this.goodsService.getGoodsList()
 
         if (response.data) {
-            return res.status(response.code).json({data: response.data});
+            if (req.cookies.accessToken === undefined) {
+                return res.status(response.code).render("goods", {
+                    data: response.data,
+                    title: "상품 목록",
+                    loginId: false,
+                });
+            } else {
+                return res.status(response.code).render("goods", {
+                    data: response.data,
+                    title: "상품 목록",
+                    loginId: true,
+                });
+            }
         } else {
             return res.status(response.code).json({message: response.message});
         }

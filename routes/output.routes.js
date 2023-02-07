@@ -46,10 +46,10 @@ router.get('/register', authController.getRegisterPage);
 router.get('/cart', authToken, cartController.getCartList);
 
 //상품목록
-router.get('/goodsList', goodsController.getGoodsList);
+router.get('/goods', goodsController.getGoodsList);
 
 //상품상세페이지
-router.get('/goodsList/:goodsId', goodsController.getGoodsDetail);
+router.get('/goods/:goodsId', goodsController.getGoodsDetail);
 
 
 

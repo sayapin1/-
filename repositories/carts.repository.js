@@ -20,7 +20,6 @@ class CartsRepository {
                 replacements: [memberId]
             }
         )
-        console.log('cartdata', allCarts)
 
         return allCarts;
     }
