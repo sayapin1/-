@@ -49,50 +49,50 @@ class AuthController {
       memberName
     );
 
-        return res.status(response.code).json({message: response.message})
-        // return res.status(response.code).send("<script>alert(response.message); location.href='/register'</script>")
+    return res.status(response.code).json({ message: response.message });
+    // return res.status(response.code).send("<script>alert(response.message); location.href='/register'</script>")
   };
 
   // 마이페이지
   getMember = async (req, res, next) => {
+    const { loginId } = req.authInfo;
+    const response = await this.authService.findMember(loginId);
 
-      const { loginId } = req.authInfo;
-      const response = await this.authService.findMember(loginId);
+    if (response.code !== 200) {
+      return res.status(response.code).json({ message: response.message });
+    }
 
-      if (response.code !== 200) {
-        return res.status(response.code).json({message: response.message})
-      }
-
-      return res.status(response.code).render("mypage", {
-        data: response.data.dataValues,
-        loginId: true,
-        title: "마이페이지",
-      });
-
+    return res.status(response.code).render("mypage", {
+      data: response.data.dataValues,
+      loginId: true,
+      title: "마이페이지",
+    });
   };
 
   loginAuth = async (req, res, next) => {
     const { loginId, loginPw } = req.body;
 
-      const response = await this.authService.loginMember(loginId, loginPw);
+    const response = await this.authService.loginMember(loginId, loginPw);
 
-    if(response.code !== 200){
-      return res.status(response.code).json({message: response.message})
+    if (response.code !== 200) {
+      return res.status(response.code).json({ message: response.message });
       // return res.status(authInfo.code).send('<script>alert(authInfo.message); location.href="/login"</script>')
     }
 
-      const {accessToken, refreshToken} = response;
-      console.log('access', accessToken)
-      res.cookie("accessToken", accessToken);
-      res.cookie("refreshToken", refreshToken);
-      console.log(response.message);
+    const { accessToken, refreshToken } = response;
+    console.log("access", accessToken);
+    res.cookie("accessToken", accessToken);
+    res.cookie("refreshToken", refreshToken);
+    console.log(response.message);
 
-      io.getIO().emit("loginAuth", {
-        loginId: response.loginId,
-      });
-      
-      return res.status(response.code).json({message: response.message})
+    console.log("response :", response);
 
+    io.getIO().emit("loginAuth", {
+      loginId: response.loginId,
+      level: response.level,
+    });
+
+    return res.status(response.code).json({ message: response.message });
   };
 
   // 로그아웃

@@ -11,7 +11,14 @@
         <li class="list-group-item">이름 : <%= data.memberName %>
         </li>
         </li>
-        <li class="list-group-item">레벨 : <%= data.level %>
+        <li class="list-group-item">
+          <% try { %> <% if (data.level === 0) { %>
+          등급 : 고객
+          <% } else if (data.level === 1) { %>
+          등급 : 관리자 <button><a href="/admin">관리자 페이지로 이동</a></button>
+          <% } %> <% } catch { %>
+          등급 : 관리자
+          <% } %>
         </li>
       </ul>
     </div>
