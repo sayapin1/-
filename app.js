@@ -1,13 +1,13 @@
-
-const express = require('express');
-const path = require('path');
-const cookieParser = require('cookie-parser');
+const express = require("express");
+const path = require("path");
+const cookieParser = require("cookie-parser");
 const port = 3000;
 
 // const router = require("./routes");
 
 // 내부 모듈
 const router = require("./routes/index");
+const socket = require("./socket");
 
 const app = express();
 
@@ -26,7 +26,7 @@ app.use("/", router);
 // css 적용
 app.use(express.static("public"));
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log(
     `
 ˚∧ ＿ ∧  　+        —̳͟͞͞❤
@@ -38,5 +38,7 @@ app.listen(port, () => {
     `
   );
 });
+
+socket.init(server);
 
 module.exports = app;

@@ -1,3 +1,166 @@
+* {
+  font-family: "Dongle", sans-serif;
+  font-size: 1.15em;
+}
+
+a {
+  text-decoration-line: none;
+  color: aliceblue;
+}
+
+header {
+  width: 80%;
+  height: 100px;
+  margin: 0 auto;
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  border-bottom: 5px solid black;
+}
+
+.logo {
+  font-size: 18px;
+  display: flex;
+  flex-direction: row;
+  margin: 0 auto;
+}
+
+main {
+  width: 80%;
+  margin: 0 auto;
+}
+
+main > h2 {
+  margin-bottom: 50px;
+}
+
+main > h3 {
+  border-top: 2px solid black;
+  padding-top: 10px;
+}
+
+.table {
+  border-top: 2px solid black;
+  padding-top: 10px;
+}
+
+#login {
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+
+  margin: 0 auto;
+  margin-top: 150px;
+  padding: 15px;
+
+  border: 1px solid lavender;
+  border-radius: 20px;
+  box-shadow: 5px 5px 5px lightgray;
+}
+
+#register {
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+
+  margin: 0 auto;
+  margin-top: 150px;
+  padding: 15px;
+
+  border: 1px solid lavender;
+  border-radius: 20px;
+  box-shadow: 5px 5px 5px lightgray;
+}
+
+.intro {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  margin: 0 auto;
+  margin-top: 150px;
+  padding: 15px;
+
+  border: 1px solid lavender;
+  border-radius: 20px;
+  box-shadow: 5px 5px 5px lightgray;
+
+  margin-top: 20px;
+}
+
+.recommended_product {
+  width: 100%;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+
+  margin: 0 auto;
+  margin-top: 150px;
+  padding: 15px;
+
+  border: 1px solid lavender;
+  border-radius: 20px;
+  box-shadow: 5px 5px 5px lightgray;
+
+  margin-top: 20px;
+}
+
+.special_offer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  margin: 0 auto;
+  margin-top: 150px;
+  padding: 15px;
+
+  border: 1px solid lavender;
+  border-radius: 20px;
+  box-shadow: 5px 5px 5px lightgray;
+
+  margin-top: 20px;
+}
+
+.login {
+  width: 30%;
+  margin: 0 auto;
+}
+
+.review {
+  font-size: 0.7em;
+}
+
+.card {
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+
+  margin: 0 auto;
+  margin-top: 150px;
+  padding: 15px;
+
+  border: 1px solid lavender;
+  border-radius: 20px;
+  box-shadow: 5px 5px 5px lightgray;
+}
+
+.title {
+  padding: 15px;
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  margin: auto;
+  width: 150px;
+}
+
+.btn > a {
+  margin: auto;
+}
+
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
@@ -14,4 +177,13 @@ textarea {
 
 .group {
   margin-top: 10px;
+}
+
+/* 모달창 */
+.modal_content {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  font-size: 30px;
+  margin-left: 10px;
 }
