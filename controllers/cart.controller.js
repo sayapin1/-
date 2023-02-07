@@ -38,6 +38,20 @@ class CartController {
     return res.status(response.code).json({message: response.message});
   }
 
+  //장바구니 삭제
+  deleteCartList = async (req, res, next) => {
+    const { cartId } = req.params;
+    const response = await this.cartService.deleteCartList(cartId);
+    res.status(response.code).json({ message: response.message });
+  }
+
+  //장바구니 
+  editCartList = async (req, res, next) => {
+    const { cartId } = req.params;
+    const {quantity} = req.body;
+    const response = await this.cartService.editCartList(cartId, quantity)
+    res.status(response.code).json({ message: response.message, data:response.data});
+  }
 
 }
 

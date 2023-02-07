@@ -12,6 +12,19 @@ socket.on("loginAuth", (data) => {
   });
 });
 
+socket.on("addGoods",(data)=>{
+  const modal = document.getElementById("modal_content");
+  modal.innerText = `지금! ${data.goodsName} 상품이 추가되었어요!`;
+
+  // 모달창
+  $(function () {
+    $(function () {
+      $(".modal").fadeIn();
+    });
+    setTimeout(() => $(".modal").fadeOut(), 5000);
+  });
+});
+
 // 로그아웃 버튼
 document.addEventListener("DOMContentLoaded", () => {
   const logout = document.getElementsByClassName("logout");
