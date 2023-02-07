@@ -41,7 +41,7 @@ class AuthService {
         encryptPassword,
         memberName
       );
-      return { code:201, message: '회원 가입에 성공하였습니다.'};
+      return { code:201, message: `환영합니다, ${loginId}님`};
     } catch (error) {
       console.error(error);
       return {code: 500, message: "요청이 올바르지 않습니다."};

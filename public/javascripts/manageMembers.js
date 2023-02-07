@@ -1,5 +1,5 @@
 const editMembershipLevel = async () =>  {
-    const checkbox = document.querySelector("#memberCheck");
+    const checkbox = document.querySelector(".memberCheck:checked");
     const memberId = checkbox.value;
     const isChecked = checkbox.checked;
 

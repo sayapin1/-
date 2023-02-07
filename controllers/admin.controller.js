@@ -16,10 +16,10 @@ class AdminController {
     }
 
     getMemberList = async (req, res, next) => {
-        // const {level} = req.authInfo
-        // if ( level !== 1) {
-        //     return res.status(400).json({message: "권한이 없습니다."})
-        // }
+        const {level} = req.authInfo
+        if ( level !== 1) {
+            return res.status(400).json({message: "권한이 없습니다."})
+        }
 
         const response = await this.adminService.getMemberList()
         if (response.data) {
@@ -34,10 +34,10 @@ class AdminController {
     }
 
     getGoodsList = async (req, res, next) => {
-        // const {level} = req.authInfo
-        // if ( level !== 1) {
-        //     return res.status(400).json({message: "권한이 없습니다."})
-        // }
+        const {level} = req.authInfo
+        if ( level !== 1) {
+            return res.status(400).json({message: "권한이 없습니다."})
+        }
 
         const response = await this.adminService.getGoodsList()
         if (response.data) {
@@ -52,10 +52,10 @@ class AdminController {
     }
 
     getOrderList = async (req, res, next) => {
-        // const {level} = req.authInfo
-        // if ( level !== 1) {
-        //     return res.status(400).json({message: "권한이 없습니다."})
-        // }
+        const {level} = req.authInfo
+        if ( level !== 1) {
+            return res.status(400).json({message: "권한이 없습니다."})
+        }
 
         const response = await this.adminService.getOrderList()
         if (response.data) {
@@ -70,6 +70,11 @@ class AdminController {
     }
 
     addGoodsPage = async (req, res, next) => {
+        const {level} = req.authInfo
+        if ( level !== 1) {
+            return res.status(400).json({message: "권한이 없습니다."})
+        }
+
         res.render("addGoods", {
             loginId: true,
             title: "goods creating page"
@@ -77,6 +82,11 @@ class AdminController {
     }
 
     editGoodsPage = async (req, res, next) => {
+        const {level} = req.authInfo
+        if ( level !== 1) {
+            return res.status(400).json({message: "권한이 없습니다."})
+        }
+
         const { goodsId } = req.params
 
         const response = await this.adminService.getOneGoods(goodsId)

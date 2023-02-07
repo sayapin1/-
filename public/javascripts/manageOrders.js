@@ -1,5 +1,5 @@
 const completeOrder = async () => {
-    const checkbox = document.querySelector("#orderCheck");
+    const checkbox = document.querySelector(".orderCheck:checked");
     const orderId = checkbox.value;
     const isChecked = checkbox.checked;
 
