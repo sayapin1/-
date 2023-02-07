@@ -65,10 +65,10 @@ class CartService {
         return {code:404, message: "장바구니 상품이 선택되지 않았습니다."}
       }
         await this.cartsRepository.deleteCart(cartId);
-        return {code: 200, message: '장바구니 삭제 완료.'}
+        return {code: 200, message: '선택한 상품 장바구니에서 삭제 완료.'}
     } catch (error) {
         console.error(error);
-        return {code: 500, message: '장바구니 삭제 실패'}
+        return {code: 500, message: '삭제 실패'}
     }
   }
 

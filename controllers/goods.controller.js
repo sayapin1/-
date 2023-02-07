@@ -1,26 +1,26 @@
 const GoodsService = require("../services/goods.service");
 
 class GoodsController {
-  goodsService = new GoodsService();
+    goodsService = new GoodsService();
 
-  //메인페이지
-  getMainPage = (req, res, next) => {
-    if (req.cookies.accessToken === undefined) {
-      res.render("index", {
-        title: "홈",
-        loginId: false,
-      });
-    } else {
-      res.render("index", {
-        title: "홈",
-        loginId: true,
-      });
-    }
-  };
+    //메인페이지
+    getMainPage = (req, res, next) => {
+        if (req.cookies.accessToken === undefined) {
+            res.render("index", {
+                title: "홈",
+                loginId: false,
+            });
+        } else {
+            res.render("index", {
+                title: "홈",
+                loginId: true,
+            });
+        }
+    };
 
-  //상품목록
-  getGoodsList = async (req, res, next) => {
-    const response = await this.goodsService.getGoodsList();
+    //상품목록
+    getGoodsList = async (req, res, next) => {
+        const response = await this.goodsService.getGoodsList();
 
 
         if (response.data) {
@@ -42,26 +42,26 @@ class GoodsController {
         }
 
     }
-  };
 
-  //상품상세페이지
-  getGoodsDetail = async (req, res, next) => {
-    const { goodsId } = req.params;
 
-    const response = await this.goodsService.getGoodsDetail(goodsId);
+    //상품상세페이지
+    getGoodsDetail = async (req, res, next) => {
+        const {goodsId} = req.params;
 
-    console.log("response.data.photo :", response.data.photo);
+        const response = await this.goodsService.getGoodsDetail(goodsId);
 
-    if (response.data) {
-      return res.status(response.code).render("goodsDetail", {
-        data: response.data,
-        loginId: true,
-        title: "상품상세페이지",
-      });
-    } else {
-      return res.status(response.code).json({ message: response.message });
-    }
-  };
+        if (response.data) {
+            return res.status(response.code).render("goodsDetail", {
+                data: response.data,
+                loginId: true,
+                title: "상품상세페이지",
+            });
+        } else {
+            return res.status(response.code).json({message: response.message});
+        }
+    };
+
+}
 
 
 module.exports = GoodsController;

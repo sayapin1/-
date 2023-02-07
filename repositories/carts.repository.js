@@ -10,7 +10,7 @@ class CartsRepository {
 
     //장바구니 전체 불러오기
     getAllCarts = async (memberId) => {
-        const query = `SELECT c.id, c.quantity, c.goodsId, g.goodsName
+        const query = `SELECT c.id, c.quantity, c.goodsId, g.price, g.goodsName
                        from Carts c
                                 inner join Goods g on c.goodsId = g.id
                        WHERE c.memberId = ?`

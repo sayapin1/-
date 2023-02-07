@@ -3,9 +3,7 @@ const editGoods = () => {
     const price = document.getElementById('price');
     const detail = document.getElementById('detail');
     const urlList = window.location.href.split('/');
-    console.log('urlList', urlList[5])
     const goodsId = urlList[5]
-    console.log('goodsId', goodsId)
 
     const req = {
         goodsName: goodsName.value,

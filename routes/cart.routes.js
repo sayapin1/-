@@ -12,10 +12,10 @@ router.post('/:goodsId', authToken, memberController.addCartList);
 router.post('/:cartId/order', authToken, memberController.orderCartList);
 
 // 장바구니 삭제
-router.delete('/', authToken, memberController.deleteCartList)
+router.delete('/:cartId', memberController.deleteCartList)
 
 // 장바구니 수정
-router.put('/',authToken, memberController.editCartList)
+router.put('/:cartId', memberController.editCartList)
 
 
 module.exports = router

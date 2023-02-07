@@ -34,7 +34,6 @@ class AdminService {
     getOrderList = async () => {
         try {
             const data = await this.ordersRepository.getAllOrders();
-            // console.log("data:", data[0].Member.loginId)
             return {code: 200, data}
         } catch (error) {
             console.error(error);

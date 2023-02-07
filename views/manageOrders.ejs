@@ -10,6 +10,25 @@
       crossorigin="anonymous" />
     <link rel="stylesheet" href="/css/admin.css" />
   </head>
+
+  <script>
+    window.addEventListener("load", function() {
+
+        const quantity = document.querySelectorAll(".quantity");
+        const price = document.querySelectorAll(".price");
+        const totalPrices = document.querySelectorAll(".totalPrice");
+
+        function updateTotal() {
+            for (let i = 0; i < quantity.length; i++) {
+                totalPrices[i].textContent = quantity[i].innerHTML * price[i].innerHTML;
+            }
+        }
+
+        updateTotal();
+    })
+
+</script>
+
   <body>
     <%- include('includes/head.ejs') %>
     <script
@@ -27,7 +46,8 @@
           <th scope="col">#</th>
           <th scope="col">주문자 ID</th>
           <th scope="col">상품명</th>
-          <th scope="col">갯수</th>
+          <th scope="col">개수</th>
+          <th scope="col">총 주문 금액</th>
           <th scope="col">주문상태</th>
           <th scope="col"></th>
         </tr>
@@ -37,8 +57,12 @@
         <tr>
           <td><%= data.indexOf(data[i]) + 1 %></td>
           <td><%= data[i].Member.loginId %></td>
-          <td><%= data[i].Good.goodsName %></td>
-          <td><%= data[i].quantity %></td>
+          <td><a href="/goods/<%= data[i].goodsId %>" style="color: black;">
+              <%= data[i].Good.goodsName %></a></td>
+          <td><span class="quantity"><%= data[i].quantity %></span></td>
+          <td>
+            <span class="totalPrice"></span>
+          </td>
           <td>
             <% if (data[i].status === 0) { %> 주문 미완료 <% } else { %> 주문
             완료 <% } %>
@@ -49,6 +73,9 @@
               name="checkbox"
               class="orderCheck"
               value="<%= data[i].id %>" />
+          </td>
+          <td style="display: none">
+            <span class="price"><%=data[i].Good.price%></span>
           </td>
         </tr>
         <% } %>

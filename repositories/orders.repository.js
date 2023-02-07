@@ -7,11 +7,11 @@ class OrdersRepository {
 
     getAllOrders = async () => {
         return await this.ordersModel.findAll({
-            attributes: ["id", "quantity", "status", "Good.goodsName", "Member.loginId"],
+            attributes: ["id", "quantity", "status", "goodsId", "Good.price", "Good.goodsName", "Member.loginId"],
             include: [
                 {
                     model: this.goodsModel,
-                    attributes: ["goodsName"],
+                    attributes: ["goodsName", "price"],
                     as: 'Good'
                 },
                 {

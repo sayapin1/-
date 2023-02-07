@@ -72,6 +72,37 @@
     font-weight:normal;
 }
 
-a:link { color:#1c1f23; text-decoration: none;}
-a:hover { color:#cc0000; text-decoration: none;}
+.nameButton:link { color:#1c1f23; text-decoration: none;}
+.nameButton:hover { color:#cc0000; text-decoration: none;}
+.nameButton:visited { color:gray; text-decoration: none;}
+
+.orderBlock{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: auto;
+}
+
+.rowGroup {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+}
+
+.darkButton {
+  border-radius: 5px;
+  color: white;
+  background-color: #1c1f23;
+  font-size: 30px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.buttons-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin-right: 10%;
+  margin-top: 20px;
+}
 

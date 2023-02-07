@@ -27,10 +27,10 @@ class GoodsService {
     //상품상세페이지
   getGoodsDetail = async(goodsId)=>{
     try {
-      const data = await this.goodsRepository.getOneGoods(goodsId);
-      if ( ! data ){
-        return { code: 404, message: '상품이 없습니다.'}
+      if ( ! goodsId ){
+        return { code: 404, message: '존재하는 상품이 아닙니다.'}
       }
+      const data = await this.goodsRepository.getOneGoods(goodsId);
     return {code:200, data}
     } catch (error) {
       console.error(error);

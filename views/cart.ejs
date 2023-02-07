@@ -7,6 +7,23 @@
           integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/rest.css"/>
 </head>
+
+<script>
+    window.addEventListener("load", function() {
+        const quantity = document.querySelectorAll(".quantity");
+        const price = document.querySelectorAll(".price");
+        const totalPrices = document.querySelectorAll(".totalPrice");
+
+        function updateTotal() {
+            for (let i = 0; i < quantity.length; i++) {
+                totalPrices[i].textContent = quantity[i].value * price[i].innerHTML;
+            }
+        }
+
+        updateTotal();
+    })
+</script>
+
 <body>
 <%- include('includes/head.ejs') %>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
@@ -20,8 +37,9 @@
     <tr>
         <th scope="col">#</th>
         <th scope="col">상품명</th>
-        <th scope="col">갯수</th>
-        <th scope="col">상품 링크</th>
+        <th scope="col">개수</th>
+        <th scope="col">상품 금액</th>
+        <th scope="col">총 금액</th>
         <th scope="col"></th>
     </tr>
     </thead>
@@ -29,12 +47,15 @@
     <% for ( let i = 0; i < data.length; i++) { %>
         <tr>
             <td><%= data.indexOf(data[i]) + 1 %></td>
-            <td><%= data[i].goodsName %></td>
-            <td><%= data[i].quantity %></td>
+            <td><a href="/goods/<%= data[i].goodsId %>" style="color: black;"><%= data[i].goodsName %></a></td>
             <td>
-                <a href="https://localhost:3000/goodsList/<%= data[i].id %>" style="color: black;">
-                    localhost:3000/goodsList/<%= data[i].id %>
-                </a>
+                <input type="number" class="quantity" value="<%= data[i].quantity %>" min="1" style="width: 50px">
+                </td>
+            <td>
+                <span class="price"><%= data[i].price %></span>
+            </td>
+            <td>
+                <span class="totalPrice"></span>
             </td>
             <td>
                 <input type="radio" name="checkbox" class="cartCheck" value="<%= data[i].id %>">
@@ -45,8 +66,10 @@
     </tbody>
 </table>
 
-<div>
-    <button type="button" id="completeOrder" class="darkButton" style="margin-left: 80%; margin-top: 20px" onclick="orderCartItem()">선택 상품 주문하기</button>
+<div class="buttons-row">
+    <button type="button" id="completeOrder" class="darkButton" style="margin: 10px" onclick="deleteCartItem()">선택 상품 삭제하기</button>
+    <button type="button" id="completeOrder" class="darkButton" style="margin: 10px" onclick="editCartItem()">선택 상품 수량변경</button>
+    <button type="button" id="completeOrder" class="darkButton" style="margin: 10px" onclick="orderCartItem()">선택 상품 주문하기</button>
 </div>
 
 
