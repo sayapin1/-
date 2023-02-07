@@ -76,6 +76,16 @@ class AdminController {
     addGoods = async (req, res, next) => {
         const { goodsName, price, detail, photo } = req.body;
         const response = await this.adminService.addGoods(goodsName, price, detail, photo);
+        
+        console.log(req.body)
+        
+        io.getIO().emit("addGoods", {
+            goodsName: goodsName,
+            price: price,
+            detail: detail,
+            photo: photo,
+          });
+
         res.status(response.code).json({ message: response.message });
     }
 

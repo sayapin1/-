@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>manage goods</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/admin.css"/>
+</head>
+<body>
+<%- include('includes/head.ejs') %>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+        crossorigin="anonymous"></script>
+<script src="/javascripts/manageGoods.js"></script>
+
+<table class="table" style="width: 80%; margin: auto">
+    <thead class="table-dark">
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">상품명</th>
+        <th scope="col">상품 링크</th>
+        <th scope="col"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <% for ( let i = 0; i < data.length; i++) { %>
+
+        <tr>
+            <td><%= data.indexOf(data[i]) + 1 %></td>
+            <td><%= data[i].goodsName %></td>
+            <td>
+                <a href="https://localhost:3000/goodsList/<%= data[i].id %>" style="color: black;">
+                    localhost:3000/goodsList/<%= data[i].id %>
+                </a>
+            </td>
+            <td>
+                <input type="checkbox" name="checkbox" class="goodsCheck" value="<%= data[i].id %>">
+            </td>
+        </tr>
+    <% } %>
+
+    </tbody>
+</table>
+
+<div class="buttons-row">
+    <button type="button" class="darkButton" style="margin-right: 10px;"
+            onclick="deleteGoods()">상품 삭제하기
+    </button>
+
+    <button type="button" class="darkButton" style="margin-right: 5px;"
+            onclick="editGoodsPage()">상품 수정하기
+    </button>
+    <button type="button" class="darkButton" style="margin-left: 5px" onclick="location.href='/admin/addGoods'">상품
+        추가하기
+    </button>
+</div>
+
+
+</body>
+</html>
