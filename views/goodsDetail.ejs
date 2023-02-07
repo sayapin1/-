@@ -18,7 +18,7 @@
         <img src="<%= data.photo%>" alt="" />
         <span>상품 이름 : <%= data.goodsName%></span>
         <span>상품 가격 : <%= data.price%></span>
-        <span>수량 :  <input type="number" id="quantity"></span>
+        <span>수량 :  <input type="number" id="quantity" min="1" value="1"></span>
         
         <span>Total : <%= data.price * 3 %></span>
         <button style="width: 150px;">Add to Cart</button>
