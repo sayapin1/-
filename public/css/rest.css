@@ -1,0 +1,8 @@
+.darkButton {
+    border-radius: 5px;
+    color: white;
+    background-color: #1c1f23;
+    font-size: 30px;
+    padding-left: 20px;
+    padding-right: 20px;
+}

@@ -1,6 +1,5 @@
 const {QueryTypes} = require('sequelize');
 const {sequelize} = require('../models/index');
-const { Op } = require("sequelize");
 
 class MembersRepository {
     constructor(membersModel) {

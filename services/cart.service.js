@@ -12,12 +12,12 @@ const {Members} = require('../models')
 
 class CartService {
   ordersRepository = new OrdersRepository(Orders, Goods, Members);
-  cartsRepository = new CartsRepository(Carts);
+  cartsRepository = new CartsRepository(Carts, Goods, Members);
 
   //장바구니
   getCartList = async(memberId) => {
     try {
-      const data = await this.cartsRepository.getAllCarts(memberId)
+      const data = await this.cartsRepository.getAllCarts(memberId);
       return {code: 200, data}
     } catch (error) {
       console.error(error);
@@ -45,7 +45,7 @@ class CartService {
       if( !cartId ) {
         return { code: 404, message: '구매할 상품이 선택되지 않았습니다.'}
       }
-      const oneCart = await this.cartsRepository.getOneCart(cartId)
+      const oneCart = await this.cartsRepository.getOneCart(cartId);
       const {memberId,goodsId,quantity} = oneCart
 
       await this.ordersRepository.createOrder(memberId,goodsId,quantity);
