@@ -46,6 +46,15 @@ class CartsRepository {
             where: {id: cartId}
         })
     }
+
+    // 장바구니 수량 수정
+    editCart = async (cartId, quantity) => {
+        return await this.cartsModel.update({
+            quantity
+        }, {
+            where: { id: cartId }
+        })
+    }
 }
 
 module.exports = CartsRepository

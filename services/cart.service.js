@@ -57,6 +57,34 @@ class CartService {
       return {code: 500, message: '주문 오류'}
     }
   }
-}
 
+  // 장바구니 삭제
+  deleteCartList = async (cartId) => {
+    try {
+      if (!cartId){
+        return {code:404, message: "장바구니 상품이 선택되지 않았습니다."}
+      }
+        await this.cartsRepository.deleteCart(cartId);
+        return {code: 200, message: '장바구니 삭제 완료.'}
+    } catch (error) {
+        console.error(error);
+        return {code: 500, message: '장바구니 삭제 실패'}
+    }
+  }
+
+  // 장바구니 수정
+  editCartList = async (cartId, quantity) => {
+    try {
+      if (!cartId){
+        return {code:404, message: "장바구니 상품이 선택되지 않았습니다."}
+      }
+
+        const data = await this.cartsRepository.editCart(cartId, quantity);
+        return {code: 200, message: '장바구니 수정 완료.', data}
+    } catch (error) {
+        console.error(error);
+        return {code: 500, message: '장바구니 수정 실패'}
+    }
+  }
+}
 module.exports = CartService

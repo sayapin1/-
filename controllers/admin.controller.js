@@ -1,5 +1,8 @@
 const AdminService = require('../services/admin.service');
 
+const io = require("../socket");
+const socket = require("../socket");
+
 class AdminController {
     adminService = new AdminService();
 
@@ -107,6 +110,11 @@ class AdminController {
         const { goodsName, price, detail } = req.body;
         const photo = "this is photo"
         const response = await this.adminService.addGoods(goodsName, price, detail, photo);
+        
+        io.getIO().emit("addGoods", {
+            goodsName: goodsName
+          });
+
         res.status(response.code).json({ message: response.message });
     }
 
