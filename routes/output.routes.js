@@ -13,13 +13,19 @@ const authController = new AuthController();
 const authToken = require("../middlewares/auth-token");
 
 //관리자페이지 불러오기
-router.get('/admin', authToken, adminController.getAdminPage)
+router.get('/admin', adminController.getAdminPage)
 
 //회원 명단 불러오기
 router.get('/admin/member', authToken, adminController.getMemberList);
 
 //관리자 페이지 상품목록 불러오기
 router.get('/admin/goods', authToken, adminController.getGoodsList);
+
+//관리자 - 상품 추가 페이지 불러오기
+router.get('/admin/addGoods', authToken, adminController.addGoodsPage)
+
+//관리자 - 상품 수정 페이지 불러오기
+router.get('/admin/goods/:goodsId', authToken, adminController.editGoodsPage)
 
 //지금까지 받은 모든 주문 내역 불러오기
 router.get('/admin/order', authToken, adminController.getOrderList);

@@ -1,0 +1,15 @@
+.registerGroup {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 53%;
+    margin: auto
+}
+
+.loginGroup {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 50%;
+    margin: auto
+}

@@ -9,8 +9,8 @@ router.use('/api/admin', AdminRouter)
 const OutputRouter = require('./output.routes');
 router.use('/', OutputRouter)
 
-const MemberRouter = require('./member.routes');
-router.use('/api/member', MemberRouter)
+const CartRouter = require('./cart.routes');
+router.use('/api/cart', CartRouter)
 
 const AuthRouter = require("./auth.routes");
 router.use("/api/auth", AuthRouter);
