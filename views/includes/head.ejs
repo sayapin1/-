@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -19,177 +20,16 @@
     <link rel="stylesheet" href="/css/image_slide.css" />
     <link rel="stylesheet" href="/css/index.css" />
     <title><%= title %></title>
-    <style>
-      * {
-        font-family: "Dongle", sans-serif;
-        font-size: 1.15em;
-      }
-
-      a {
-        text-decoration-line: none;
-        color: aliceblue;
-      }
-
-      header {
-        width: 80%;
-        height: 100px;
-        margin: 0 auto;
-        margin-bottom: 30px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-
-        border-bottom: 5px solid black;
-      }
-
-      .logo {
-        font-size: 18px;
-        display: flex;
-        flex-direction: row;
-        margin: 0 auto;
-      }
-
-      main {
-        width: 80%;
-        margin: 0 auto;
-      }
-
-      main > h2 {
-        margin-bottom: 50px;
-      }
-
-      main > h3 {
-        border-top: 2px solid black;
-        padding-top: 10px;
-      }
-
-      .table {
-        border-top: 2px solid black;
-        padding-top: 10px;
-      }
-
-      #login {
-        width: 30%;
-        display: flex;
-        flex-direction: column;
-
-        margin: 0 auto;
-        margin-top: 150px;
-        padding: 15px;
-
-        border: 1px solid lavender;
-        border-radius: 20px;
-        box-shadow: 5px 5px 5px lightgray;
-      }
-
-      #register {
-        width: 30%;
-        display: flex;
-        flex-direction: column;
-
-        margin: 0 auto;
-        margin-top: 150px;
-        padding: 15px;
-
-        border: 1px solid lavender;
-        border-radius: 20px;
-        box-shadow: 5px 5px 5px lightgray;
-      }
-
-      .intro {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-
-        margin: 0 auto;
-        margin-top: 150px;
-        padding: 15px;
-
-        border: 1px solid lavender;
-        border-radius: 20px;
-        box-shadow: 5px 5px 5px lightgray;
-
-        margin-top: 20px;
-      }
-
-      .recommended_product {
-        width: 100%;
-        height: 500px;
-        display: flex;
-        flex-direction: column;
-
-        margin: 0 auto;
-        margin-top: 150px;
-        padding: 15px;
-
-        border: 1px solid lavender;
-        border-radius: 20px;
-        box-shadow: 5px 5px 5px lightgray;
-
-        margin-top: 20px;
-      }
-
-      .special_offer {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-
-        margin: 0 auto;
-        margin-top: 150px;
-        padding: 15px;
-
-        border: 1px solid lavender;
-        border-radius: 20px;
-        box-shadow: 5px 5px 5px lightgray;
-
-        margin-top: 20px;
-      }
-
-      .login {
-        width: 30%;
-        margin: 0 auto;
-      }
-
-      .review {
-        font-size: 0.7em;
-      }
-
-      .card {
-        width: 30%;
-        display: flex;
-        flex-direction: column;
-
-        margin: 0 auto;
-        margin-top: 150px;
-        padding: 15px;
-
-        border: 1px solid lavender;
-        border-radius: 20px;
-        box-shadow: 5px 5px 5px lightgray;
-      }
-
-      .title {
-        padding: 15px;
-      }
-
-      .btn {
-        display: flex;
-        align-items: center;
-        margin: auto;
-        width: 150px;
-      }
-
-      .btn > a {
-        margin: auto;
-      }
-    </style>
   </head>
   <script
     src="https://cdn.socket.io/4.5.4/socket.io.min.js"
     integrity="sha384-/KNQL8Nu5gCHLqwqfQjA689Hhoqgi2S84SNUxC3roTe4EhJ9AfLkp8QiQcU8AMzI"
     crossorigin="anonymous"></script>
-  <script src="/js/head.js"></script>
-
+  <script
+    src="https://code.jquery.com/jquery-3.6.3.min.js"
+    integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU="
+    crossorigin="anonymous"></script>
+  <script src="/javascripts/head.js"></script>
   <body>
     <header>
       <div class="logo">
@@ -227,22 +67,9 @@
         <a href="/register">회원가입</a>
       </button>
       <% } %>
+      <div class="modal" id="modal">
+        <div class="modal_content" id="modal_content"></div>
+      </div>
     </header>
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const logout = document.getElementsByClassName("logout");
-        for (let i = 0; i < logout.length; i++) {
-          logout[i].addEventListener("click", () => {
-            axios({
-              method: "post",
-              url: "/api/auth/logout",
-              data: {},
-            }).then((response) => {
-              window.location.href = "/";
-            });
-          });
-        }
-      });
-    </script>
   </body>
 </html>

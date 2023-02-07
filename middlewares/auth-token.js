@@ -18,11 +18,12 @@ const authToken = (req, res, next) => {
           type: "JWT",
           loginId: refreshToken.loginId,
           id: refreshToken.id,
-          level: refreshToken.level
+          level: refreshToken.level,
         },
         process.env.JWT_ACCESS_SECRET,
         {
           expiresIn: '1h',
+
         }
       );
 
@@ -35,7 +36,7 @@ const authToken = (req, res, next) => {
     console.log(error);
     res.clearCookie("accessToken");
     res.clearCookie("refreshToken");
-    res.status(401).json({message: error.message}).redirect("/");
+    res.status(401).json({ message: error.message }).redirect("/");
   }
 
   function validateAccessToken(accessToken) {
