@@ -40,8 +40,7 @@ class AuthService {
         memberName
       );
 
-      return { code:201, message: `환영합니다, ${loginId}님`};
-
+      return { code: 201, message: `환영합니다, ${loginId}님` };
     } catch (error) {
       console.error(error);
       return { code: 500, message: "요청이 올바르지 않습니다." };
@@ -97,9 +96,7 @@ class AuthService {
         },
         process.env.JWT_REFRESH_SECRET,
         {
-
           expiresIn: "12h",
-
         }
       );
       return {
@@ -107,6 +104,7 @@ class AuthService {
         accessToken,
         refreshToken,
         loginId,
+        level: authInfo.level,
         message: "로그인에 성공하였습니다.",
       };
     } catch (error) {
