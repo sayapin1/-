@@ -2,29 +2,77 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/css/rest.css"/>
 </head>
+
+  <script>
+    window.addEventListener("load", function() {
+
+        const quantity = document.querySelectorAll(".quantity");
+        const price = document.querySelectorAll(".price");
+        const totalPrices = document.querySelectorAll(".totalPrice");
+
+        function updateTotal() {
+            for (let i = 0; i < quantity.length; i++) {
+                totalPrices[i].textContent = quantity[i].innerHTML * price[i].innerHTML;
+            }
+        }
+
+        updateTotal();
+    })
+
+</script>
+
 <%- include('includes/head.ejs') %>
   <main>
 
-    <div class="card" style="width: 60%;">
+    <div class="card" style="width: 60%; margin-top: 30px">
       <div class="card-header">
         <h2>나의 정보</h2>
       </div>
       <ul class="list-group list-group-flush">
-        <li class="list-group-item">아이디 : <%= data.loginId %>
+        <li class="list-group-item">아이디 : <%= data.memberInfo.loginId %>
         </li>
-        <li class="list-group-item">이름 : <%= data.memberName %>
+        <li class="list-group-item">이름 : <%= data.memberInfo.memberName %>
         </li>
         </li>
         <li class="list-group-item">
-          <% try { %> <% if (data.level === 0) { %>
+          <% try { %> <% if (data.memberInfo.level === 0) { %>
           등급 : 고객
-          <% } else if (data.level === 1) { %>
+          <% } else if (data.memberInfo.level === 1) { %>
           등급 : 관리자 <button class="darkButton" onclick="location.href='/admin'">관리자 페이지로 이동</button>
           <% } %> <% } catch { %>
           등급 : 관리자
           <% } %>
         </li>
       </ul>
+    </div>
+    <div class="card" style="width: 60%; margin-top: 20px">
+      <div class="card-header">
+        <h2>나의 주문내역</h2>
+      </div>
+      <table class="table">
+  <thead>
+    <tr style="font-size: 25px">
+      <th scope="col">#</th>
+      <th scope="col">상품명</th>
+      <th scope="col">총 금액</th>
+      <th scope="col">주문 상태</th>
+    </tr>
+  </thead>
+  <tbody>
+  <% for ( let i = 0; i < data.orderInfo.length; i++) { %>
+    <tr style="font-size: 20px;">
+      <th scope="row"><%= data.orderInfo.indexOf(data.orderInfo[i]) + 1%></th>
+      <td><%= data.orderInfo[i].Good.goodsName %></td>
+      <td style="display: none"><span class="price"><%= data.orderInfo[i].Good.price %></span></td>
+      <td style="display: none"><span class="quantity"><%= data.orderInfo[i].quantity %></span></td>
+      <td><span class="totalPrice"></span></td>
+      <td><% if( data.orderInfo[i].status === 0 ) {%> 배송 준비 중 <% } else { %> 배송
+            완료 <% } %>
+      </td>
+    </tr>
+  <% } %>
+  </tbody>
+</table>
     </div>
   </main>
   </body>

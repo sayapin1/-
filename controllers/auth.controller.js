@@ -55,15 +55,16 @@ class AuthController {
 
   // 마이페이지
   getMember = async (req, res, next) => {
-    const { loginId } = req.authInfo;
-    const response = await this.authService.findMember(loginId);
+    const { loginId, id } = req.authInfo;
+    const response = await this.authService.findMemberInfo(loginId, id);
+    console.log(response.data)
 
     if (response.code !== 200) {
       return res.status(response.code).json({ message: response.message });
     }
 
     return res.status(response.code).render("mypage", {
-      data: response.data.dataValues,
+      data: response.data,
       loginId: true,
       title: "마이페이지",
     });

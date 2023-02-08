@@ -3,10 +3,17 @@ const bcrypt = require("bcrypt");
 const saltRounds = 10;
 
 const MembersRepository = require("../repositories/members.repository");
+const OrdersRepository = require("../repositories/orders.repository")
+
 const { Members } = require("../models");
+const { Orders } = require("../models")
+const { Goods } = require("../models")
+
+
 
 class AuthService {
   membersRepository = new MembersRepository(Members);
+  ordersRepository = new OrdersRepository(Orders, Members, Goods)
   registerMember = async (loginId, loginPw, checkPassword, memberName) => {
     const validateId = /^[a-z0-9]{3,10}$/gs; // 숫자, 영어 소문자로만 3~10 글자, 글자 중간 공백 불가
     const validatePassword = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{5,10}/gs; // 숫자, 영어 대소문자, 특수문자 각 1글자 이상 포함, 5~10글자, 글자 중간 공백 불가
@@ -47,10 +54,11 @@ class AuthService {
     }
   };
 
-  findMember = async (loginId) => {
+  findMemberInfo = async (loginId, id) => {
     try {
-      const data = await this.membersRepository.findMember(loginId);
-      return { code: 200, data };
+      const memberInfo = await this.membersRepository.findMember(loginId);
+      const orderInfo = await this.ordersRepository.getMemberOrder(id)
+      return { code: 200, data: {memberInfo,  orderInfo}};
     } catch (error) {
       console.error(error);
       return { code: 500, message: "요청이 올바르지 않습니다." };

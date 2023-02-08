@@ -49,6 +49,21 @@ class OrdersRepository {
             memberId, goodsId, quantity
         })
     }
+
+    //특정 고객의 주문 내역 불러오기
+    getMemberOrder = async (id) => {
+        return await this.ordersModel.findAll({
+            attributes: ["id", "quantity", "status", "goodsId", "Good.price", "Good.goodsName"],
+            include: [
+                {
+                    model: this.goodsModel,
+                    attributes: ["goodsName", "price"],
+                    as: 'Good'
+                }
+            ],
+            where: {memberId: id}
+        })
+}
 }
 
 module.exports = OrdersRepository
