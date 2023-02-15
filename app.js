@@ -24,9 +24,6 @@ app.use(express.json({ type: 'application/javascript' }));
 
 app.use("/", router);
 
-// css 적용
-app.use(express.static("public"));
-
 const server = app.listen(port, () => {
   console.log(
     `
@@ -42,4 +39,4 @@ const server = app.listen(port, () => {
 
 socket.init(server);
 
-module.exports = app;
+module.exports = { app };
