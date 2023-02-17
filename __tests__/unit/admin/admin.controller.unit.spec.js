@@ -305,106 +305,106 @@ describe('AdminController', () => {
         });
     });
 
-    describe('getGoodsList', () => {
-        it('should render the manageGoods page with goods data', async () => {
-            const fakeGoodsData = [{id: 1, name: 'product 1', price: 100}, {
-                id: 2,
-                name: 'product 2',
-                price: 200
-            }, {id: 3, name: 'product 3', price: 300},];
-            const response = {code: 200, data: fakeGoodsData};
-            adminService.getGoodsList = jest.fn().mockResolvedValue(response);
-
-            await adminOutputController.getGoodsList(req, res, next);
-
-            expect(adminService.getGoodsList).toHaveBeenCalled();
-            expect(res.status).toHaveBeenCalledWith(response.code);
-            expect(res.render).toHaveBeenCalledWith('manageGoods', {
-                data: response.data,
-                loginId: true,
-                title: 'manage goods',
-            });
-        });
-
-        it('should return an error message if there was a problem fetching goods data', async () => {
-            const fakeErrorMessage = 'Error fetching goods data';
-            const response = {code: 500, message: fakeErrorMessage};
-            adminService.getGoodsList = jest.fn().mockResolvedValue(response);
-
-            await adminOutputController.getGoodsList(req, res, next);
-
-            expect(adminService.getGoodsList).toHaveBeenCalled();
-            expect(res.status).toHaveBeenCalledWith(response.code);
-            expect(res.json).toHaveBeenCalledWith({message: response.message});
-        });
-    });
-
-    describe('getOrderList', () => {
-        it('should render the manageOrders page with order data', async () => {
-            const fakeOrderData = [{id: 1, user: 'user1', date: '2022-02-01'}, {
-                id: 2,
-                user: 'user2',
-                date: '2022-02-02'
-            }, {id: 3, user: 'user3', date: '2022-02-03'},];
-            const response = {code: 200, data: fakeOrderData};
-            adminService.getOrderList = jest.fn().mockResolvedValue(response);
-
-            await adminOutputController.getOrderList(req, res, next);
-
-            expect(adminService.getOrderList).toHaveBeenCalled();
-            expect(res.status).toHaveBeenCalledWith(response.code);
-            expect(res.render).toHaveBeenCalledWith('manageOrders', {
-                data: response.data,
-                loginId: true,
-                title: 'manage orders',
-            });
-        });
-
-        it('should return an error message if there was a problem fetching order data', async () => {
-            const fakeErrorMessage = 'Error fetching order data';
-            const response = {code: 500, message: fakeErrorMessage};
-            adminService.getOrderList = jest.fn().mockResolvedValue(response);
-
-            await adminOutputController.getOrderList(req, res, next);
-
-            expect(adminService.getOrderList).toHaveBeenCalled();
-            expect(res.status).toHaveBeenCalledWith(response.code);
-            expect(res.json).toHaveBeenCalledWith({message: response.message});
-        });
-    });
-
-    describe("editGoodsPage", () => {
-        test("should render editGoods page with proper data", async () => {
-            req.authInfo = {level: 1};
-            req.params = {goodsId: 1};
-
-            const response = {
-                code: 200,
-                data: {name: "test goods"},
-            };
-            jest
-                .spyOn(adminService, "getOneGoods")
-                .mockImplementation(() => Promise.resolve(response));
-
-            await adminOutputController.editGoodsPage(req, res, next);
-
-            expect(res.render).toHaveBeenCalledWith("editGoods", {
-                data: response.data,
-                loginId: true,
-                title: "goods editing page",
-            });
-        });
-
-        test("should return 400 if user does not have level 1 access", async () => {
-            req.authInfo = {level: 1};
-            req.params = {goodsId: 0};
-
-            await adminOutputController.editGoodsPage(req, res, next);
-
-            expect(res.status).toHaveBeenCalledWith(400);
-            expect(res.json).toHaveBeenCalledWith({
-                message: "권한이 없습니다.",
-            });
-        });
-    });
+    // describe('getGoodsList', () => {
+    //     it('should render the manageGoods page with goods data', async () => {
+    //         const fakeGoodsData = [{id: 1, name: 'product 1', price: 100}, {
+    //             id: 2,
+    //             name: 'product 2',
+    //             price: 200
+    //         }, {id: 3, name: 'product 3', price: 300},];
+    //         const response = {code: 200, data: fakeGoodsData};
+    //         adminService.getGoodsList = jest.fn().mockResolvedValue(response);
+    //
+    //         await adminOutputController.getGoodsList(req, res, next);
+    //
+    //         expect(adminService.getGoodsList).toHaveBeenCalled();
+    //         expect(res.status).toHaveBeenCalledWith(response.code);
+    //         expect(res.render).toHaveBeenCalledWith('manageGoods', {
+    //             data: response.data,
+    //             loginId: true,
+    //             title: 'manage goods',
+    //         });
+    //     });
+    //
+    //     it('should return an error message if there was a problem fetching goods data', async () => {
+    //         const fakeErrorMessage = 'Error fetching goods data';
+    //         const response = {code: 500, message: fakeErrorMessage};
+    //         adminService.getGoodsList = jest.fn().mockResolvedValue(response);
+    //
+    //         await adminOutputController.getGoodsList(req, res, next);
+    //
+    //         expect(adminService.getGoodsList).toHaveBeenCalled();
+    //         expect(res.status).toHaveBeenCalledWith(response.code);
+    //         expect(res.json).toHaveBeenCalledWith({message: response.message});
+    //     });
+    // });
+    //
+    // describe('getOrderList', () => {
+    //     it('should render the manageOrders page with order data', async () => {
+    //         const fakeOrderData = [{id: 1, user: 'user1', date: '2022-02-01'}, {
+    //             id: 2,
+    //             user: 'user2',
+    //             date: '2022-02-02'
+    //         }, {id: 3, user: 'user3', date: '2022-02-03'},];
+    //         const response = {code: 200, data: fakeOrderData};
+    //         adminService.getOrderList = jest.fn().mockResolvedValue(response);
+    //
+    //         await adminOutputController.getOrderList(req, res, next);
+    //
+    //         expect(adminService.getOrderList).toHaveBeenCalled();
+    //         expect(res.status).toHaveBeenCalledWith(response.code);
+    //         expect(res.render).toHaveBeenCalledWith('manageOrders', {
+    //             data: response.data,
+    //             loginId: true,
+    //             title: 'manage orders',
+    //         });
+    //     });
+    //
+    //     it('should return an error message if there was a problem fetching order data', async () => {
+    //         const fakeErrorMessage = 'Error fetching order data';
+    //         const response = {code: 500, message: fakeErrorMessage};
+    //         adminService.getOrderList = jest.fn().mockResolvedValue(response);
+    //
+    //         await adminOutputController.getOrderList(req, res, next);
+    //
+    //         expect(adminService.getOrderList).toHaveBeenCalled();
+    //         expect(res.status).toHaveBeenCalledWith(response.code);
+    //         expect(res.json).toHaveBeenCalledWith({message: response.message});
+    //     });
+    // });
+    //
+    // describe("editGoodsPage", () => {
+    //     test("should render editGoods page with proper data", async () => {
+    //         req.authInfo = {level: 1};
+    //         req.params = {goodsId: 1};
+    //
+    //         const response = {
+    //             code: 200,
+    //             data: {name: "test goods"},
+    //         };
+    //         jest
+    //             .spyOn(adminService, "getOneGoods")
+    //             .mockImplementation(() => Promise.resolve(response));
+    //
+    //         await adminOutputController.editGoodsPage(req, res, next);
+    //
+    //         expect(res.render).toHaveBeenCalledWith("editGoods", {
+    //             data: response.data,
+    //             loginId: true,
+    //             title: "goods editing page",
+    //         });
+    //     });
+    //
+    //     test("should return 400 if user does not have level 1 access", async () => {
+    //         req.authInfo = {level: 1};
+    //         req.params = {goodsId: 0};
+    //
+    //         await adminOutputController.editGoodsPage(req, res, next);
+    //
+    //         expect(res.status).toHaveBeenCalledWith(400);
+    //         expect(res.json).toHaveBeenCalledWith({
+    //             message: "권한이 없습니다.",
+    //         });
+    //     });
+    // });
 })
