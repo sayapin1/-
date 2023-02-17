@@ -11,7 +11,11 @@
     "delay": 2
   },
   "scripts": {
-    "test": "jest",
+    "test": "jest --forceExit",
+    "test:silent": "jest --silent --forceExit",
+    "test:coverage": "jest --coverage --forceExit",
+    "test:unit": "jest __tests__/unit --forceExit",
+    "test:integration": "jest __tests__/integration --forceExit",
     "start": "nodemon app.js"
   },
   "dependencies": {
@@ -23,6 +27,7 @@
     "express": "~4.18.2",
     "http": "^0.0.1-security",
     "init": "^0.1.2",
+    "jest-mock-req-res": "^1.0.2",
     "jsonwebtoken": "^9.0.0",
     "mysql2": "^3.1.0",
     "nodemon": "^2.0.20",

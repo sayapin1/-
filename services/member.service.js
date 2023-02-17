@@ -11,7 +11,7 @@ const { Goods } = require("../models")
 
 
 
-class AuthService {
+class MemberService {
   membersRepository = new MembersRepository(Members);
   ordersRepository = new OrdersRepository(Orders, Members, Goods)
   registerMember = async (loginId, loginPw, checkPassword, memberName) => {
@@ -122,4 +122,4 @@ class AuthService {
   };
 }
 
-module.exports = AuthService;
+module.exports = MemberService;

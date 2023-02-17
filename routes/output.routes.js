@@ -1,55 +1,56 @@
 const express = require('express');
 const router = express.Router();
 
-const AdminController = require('../controllers/admin.controller');
-const adminController = new AdminController();
-const CartController =require('../controllers/cart.controller');
-const cartController = new CartController();
-const GoodsController =require('../controllers/goods.controller');
-const goodsController = new GoodsController();
-const AuthController = require('../controllers/auth.controller');
-const authController = new AuthController();
+const AdminOutputController = require('../controllers/adminOutput.controller');
+const adminOutputController = new AdminOutputController();
+const CartOutputController = require('../controllers/cartOutput.controller');
+const cartOutputController = new CartOutputController();
+const GoodsOutputController = require('../controllers/goodsOutput.controller');
+const goodsOutputController = new GoodsOutputController();
+const MemberOutputController = require('../controllers/memberOutput.controller');
+const memberOutputController = new MemberOutputController();
 
 const authToken = require("../middlewares/auth-token");
 
 //관리자페이지 불러오기
-router.get('/admin', adminController.getAdminPage)
+router.get('/admin', adminOutputController.getAdminPage)
 
 //회원 명단 불러오기
-router.get('/admin/member', authToken, adminController.getMemberList);
+router.get('/admin/member', authToken, adminOutputController.getMemberList);
 
 //관리자 페이지 상품목록 불러오기
-router.get('/admin/goods', authToken, adminController.getGoodsList);
+router.get('/admin/goods', authToken, adminOutputController.getGoodsList);
 
 //관리자 - 상품 추가 페이지 불러오기
-router.get('/admin/addGoods', authToken, adminController.addGoodsPage)
+router.get('/admin/addGoods', authToken, adminOutputController.addGoodsPage)
 
 //관리자 - 상품 수정 페이지 불러오기
-router.get('/admin/goods/:goodsId', authToken, adminController.editGoodsPage)
+router.get('/admin/goods/:goodsId', authToken, adminOutputController.editGoodsPage)
 
 //지금까지 받은 모든 주문 내역 불러오기
-router.get('/admin/order', authToken, adminController.getOrderList);
-
-//메인페이지
-router.get('/', goodsController.getMainPage);
+router.get('/admin/order', authToken, adminOutputController.getOrderList);
 
 //로그인페이지
-router.get('/login', authController.getLoginPage);
+router.get('/login', memberOutputController.getLoginPage);
 
 //회원가입페이지
-router.get('/register', authController.getRegisterPage);
+router.get('/register', memberOutputController.getRegisterPage);
 
-//마이페이지
-// router.get('/mypage', memberController.getMt);
+// 마이페이지
+router.get("/myPage", authToken, memberOutputController.getMember);
 
 //장바구니
-router.get('/cart', authToken, cartController.getCartList);
+router.get('/cart', authToken, cartOutputController.getCartList);
 
 //상품목록
-router.get('/goods', goodsController.getGoodsList);
+router.get('/goods', goodsOutputController.getGoodsList);
 
 //상품상세페이지
-router.get('/goods/:goodsId', goodsController.getGoodsDetail);
+router.get('/goods/:goodsId', goodsOutputController.getGoodsDetail);
+
+//메인페이지
+router.get('/', goodsOutputController.getMainPage);
+
 
 
 

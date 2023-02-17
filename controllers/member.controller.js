@@ -1,48 +1,18 @@
 const e = require("express");
-const AuthService = require("../services/auth.service");
+const MemberService = require("../services/member.service");
 require("dotenv").config();
 
 const io = require("../socket");
 const socket = require("../socket");
 
-class AuthController {
-  authService = new AuthService();
-
-  //로그인페이지
-  getLoginPage = (req, res, next) => {
-    if (req.cookies.accessToken === undefined) {
-      res.render("login", {
-        title: "로그인",
-        loginId: false,
-      });
-    } else {
-      res.render("login", {
-        title: "로그인",
-        loginId: true,
-      });
-    }
-  };
-
-  //회원가입페이지
-  getRegisterPage = (req, res, next) => {
-    if (req.cookies.accessToken === undefined) {
-      res.render("register", {
-        title: "회원가입",
-        loginId: false,
-      });
-    } else {
-      res.render("register", {
-        title: "회원가입",
-        loginId: true,
-      });
-    }
-  };
+class MemberController {
+  memberService = new MemberService();
 
   // 회원가입
   registerMember = async (req, res, next) => {
     const { loginId, loginPw, checkPassword, memberName } = req.body;
 
-    const response = await this.authService.registerMember(
+    const response = await this.memberService.registerMember(
       loginId,
       loginPw,
       checkPassword,
@@ -53,27 +23,10 @@ class AuthController {
     // return res.status(response.code).send("<script>alert(response.message); location.href='/register'</script>")
   };
 
-  // 마이페이지
-  getMember = async (req, res, next) => {
-    const { loginId, id } = req.authInfo;
-    const response = await this.authService.findMemberInfo(loginId, id);
-    console.log(response.data)
-
-    if (response.code !== 200) {
-      return res.status(response.code).json({ message: response.message });
-    }
-
-    return res.status(response.code).render("mypage", {
-      data: response.data,
-      loginId: true,
-      title: "마이페이지",
-    });
-  };
-
   loginAuth = async (req, res, next) => {
     const { loginId, loginPw } = req.body;
 
-    const response = await this.authService.loginMember(loginId, loginPw);
+    const response = await this.memberService.loginMember(loginId, loginPw);
 
     if (response.code !== 200) {
       return res.status(response.code).json({ message: response.message });
@@ -105,4 +58,4 @@ class AuthController {
   };
 }
 
-module.exports = AuthController;
+module.exports = MemberController;

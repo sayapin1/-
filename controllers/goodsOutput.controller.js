@@ -1,6 +1,6 @@
 const GoodsService = require("../services/goods.service");
 
-class GoodsController {
+class GoodsOutputController {
     goodsService = new GoodsService();
 
     //메인페이지
@@ -64,4 +64,4 @@ class GoodsController {
 }
 
 
-module.exports = GoodsController;
+module.exports = GoodsOutputController;

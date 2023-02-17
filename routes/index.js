@@ -11,7 +11,7 @@ router.use('/', OutputRouter)
 const CartRouter = require('./cart.routes');
 router.use('/api/cart', CartRouter)
 
-const AuthRouter = require("./auth.routes");
-router.use("/api/auth", AuthRouter);
+const MemberRouter = require("./member.routes");
+router.use("/api/member", MemberRouter);
 
 module.exports = router;
