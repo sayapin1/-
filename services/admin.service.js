@@ -94,7 +94,7 @@ class AdminService {
 
     editGoods = async (goodsId, goodsName, price, detail, photo) => {
         try {
-            console.log("이것이 goodsName: ", goodsName)
+
             const goods = await this.goodsRepository.getOneGoods(goodsId);
             if (!goods) {
                 return {code: 404, message: '상품이 존재하지 않습니다.'}

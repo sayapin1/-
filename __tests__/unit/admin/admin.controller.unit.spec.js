@@ -9,6 +9,9 @@ const mockAdminService = {
     deleteGoods: jest.fn(),
     completeOrder: jest.fn(),
     getMemberList: jest.fn(),
+    getGoodsList: jest.fn(),
+    getOrderList: jest.fn(),
+    getOneGoods: jest.fn(),
 }
 
 let mockRequest = {};
@@ -18,6 +21,8 @@ const mockResponse = {
     render: jest.fn(),
     json: jest.fn(),
 };
+
+let mockReturnedValue = {}
 
 
 describe('AdminController', () => {
@@ -29,6 +34,7 @@ describe('AdminController', () => {
         adminController = new AdminController();
         adminOutputController = new AdminOutputController();
         adminController.adminService = mockAdminService;
+        adminOutputController.adminService = mockAdminService;
 
         next = jest.fn();
     });
@@ -36,14 +42,14 @@ describe('AdminController', () => {
     describe('editMembershipLevel', () => {
         const memberId = '1';
         test('should call AdminService.editMembershipLevel with memberId', async () => {
-            const responseValue = {
+            mockReturnedValue = {
                 code: 200,
                 message: 'Success',
                 data: 'data'
             };
 
             mockAdminService.editMembershipLevel = jest.fn(() => {
-                return responseValue;
+                return mockReturnedValue;
             });
 
             mockRequest = ({
@@ -55,54 +61,54 @@ describe('AdminController', () => {
             await adminController.editMembershipLevel(mockRequest, mockResponse);
 
             expect(mockAdminService.editMembershipLevel).toHaveBeenCalledWith(mockRequest.params.memberId);
-            expect(mockResponse.status).toHaveBeenCalledWith(responseValue.code);
-            expect(mockResponse.json).toHaveBeenCalledWith({message: responseValue.message, data: responseValue.data});
+            expect(mockResponse.status).toHaveBeenCalledWith(mockReturnedValue.code);
+            expect(mockResponse.json).toHaveBeenCalledWith({message: mockReturnedValue.message, data: mockReturnedValue.data});
         });
 
     });
 
     describe('addGoods', () => {
         test('should call adminService.addGoods with the correct arguments', async () => {
-            const mockAddGoodsRequest = {
+            mockRequest = {
                 body: {
                     goodsName: 'Test Goods',
                     price: 100,
                     detail: 'Test detail',
                 },
             };
-            const mockAddGoodsResponse = {
+            mockReturnedValue = {
                 code: 200,
                 message: 'Goods added successfully',
             };
 
             mockAdminService.addGoods = jest.fn(() => {
-                return mockAddGoodsResponse;
+                return mockReturnedValue;
             });
 
             const mockEmit = jest.fn();
             io.getIO = jest.fn(() => ({emit: mockEmit}));
 
-            await adminController.addGoods(mockAddGoodsRequest, mockResponse);
+            await adminController.addGoods(mockRequest, mockResponse);
 
             expect(mockAdminService.addGoods).toHaveBeenCalledWith(
-                mockAddGoodsRequest.body.goodsName,
-                mockAddGoodsRequest.body.price,
-                mockAddGoodsRequest.body.detail,
+                mockRequest.body.goodsName,
+                mockRequest.body.price,
+                mockRequest.body.detail,
                 'this is photo'
             );
-            expect(mockEmit).toHaveBeenCalledWith('addGoods', {goodsName: mockAddGoodsRequest.body.goodsName});
-            expect(mockResponse.status).toHaveBeenCalledWith(mockAddGoodsResponse.code);
-            expect(mockResponse.json).toHaveBeenCalledWith({message: mockAddGoodsResponse.message});
+            expect(mockEmit).toHaveBeenCalledWith('addGoods', {goodsName: mockRequest.body.goodsName});
+            expect(mockResponse.status).toHaveBeenCalledWith(mockReturnedValue.code);
+            expect(mockResponse.json).toHaveBeenCalledWith({message: mockReturnedValue.message});
         });
     });
 
     describe('editGoods', () => {
         test('should call adminService.editGoods with the correct arguments', async () => {
-            const mockEditGoodsResponse = {
+            mockReturnedValue = {
                 code: 200,
                 message: 'Goods updated successfully',
             };
-            const mockEditGoodsRequest = {
+            mockRequest = {
                 params: {
                     goodsId: 'test-id',
                 },
@@ -115,81 +121,81 @@ describe('AdminController', () => {
             };
 
             mockAdminService.editGoods = jest.fn(() => {
-                return mockEditGoodsResponse;
+                return mockReturnedValue;
             });
 
-            await adminController.editGoods(mockEditGoodsRequest, mockResponse);
+            await adminController.editGoods(mockRequest, mockResponse);
 
             expect(mockAdminService.editGoods).toHaveBeenCalledWith(
-                mockEditGoodsRequest.params.goodsId,
-                mockEditGoodsRequest.body.goodsName,
-                mockEditGoodsRequest.body.price,
-                mockEditGoodsRequest.body.detail,
-                mockEditGoodsRequest.body.photo
+                mockRequest.params.goodsId,
+                mockRequest.body.goodsName,
+                mockRequest.body.price,
+                mockRequest.body.detail,
+                mockRequest.body.photo
             );
-            expect(mockResponse.status).toHaveBeenCalledWith(mockEditGoodsResponse.code);
-            expect(mockResponse.json).toHaveBeenCalledWith({message: mockEditGoodsResponse.message});
+            expect(mockResponse.status).toHaveBeenCalledWith(mockReturnedValue.code);
+            expect(mockResponse.json).toHaveBeenCalledWith({message: mockReturnedValue.message});
         });
     });
 
     describe('deleteGoods', () => {
         it('should call the adminService.deleteGoods method with the correct arguments and return a response with a status code of 200', async () => {
-            const mockDeleteGoodsRequest = {
+            mockRequest = {
                 params: {
                     goodsId: 'test-id',
                 },
             };
 
-            const mockDeleteGoodsResponse = {
+            mockReturnedValue = {
                 code: 200,
                 message: 'Goods deleted successfully',
             };
             mockAdminService.deleteGoods = jest.fn(() => {
-                return mockDeleteGoodsResponse;
+                return mockReturnedValue;
             });
 
-            await adminController.deleteGoods(mockDeleteGoodsRequest, mockResponse);
+            await adminController.deleteGoods(mockRequest, mockResponse);
 
-            expect(mockAdminService.deleteGoods).toHaveBeenCalledWith(mockDeleteGoodsRequest.params.goodsId);
-            expect(mockResponse.status).toHaveBeenCalledWith(mockDeleteGoodsResponse.code);
-            expect(mockResponse.json).toHaveBeenCalledWith({message: mockDeleteGoodsResponse.message});
+            expect(mockAdminService.deleteGoods).toHaveBeenCalledWith(mockRequest.params.goodsId);
+            expect(mockResponse.status).toHaveBeenCalledWith(mockReturnedValue.code);
+            expect(mockResponse.json).toHaveBeenCalledWith({message: mockReturnedValue.message});
         });
     })
 
     describe('completeOrder', () => {
         test('should call AdminService.completeOrder with orderId', async () => {
-            const mockCompleteOrderResponse = {
+            mockReturnedValue = {
                 code: 200,
                 message: 'Success',
             };
 
-            const mockCompleteOrderRequest = {
+            mockRequest = {
                 params: {
                     orderId: 1,
                 },
             };
 
             mockAdminService.completeOrder = jest.fn(() => {
-                return mockCompleteOrderResponse;
+                return mockReturnedValue;
             });
 
-            await adminController.completeOrder(mockCompleteOrderRequest, mockResponse);
+            await adminController.completeOrder(mockRequest, mockResponse);
 
-            expect(mockAdminService.completeOrder).toHaveBeenCalledWith(mockCompleteOrderRequest.params.orderId);
-            expect(mockResponse.status).toHaveBeenCalledWith(mockCompleteOrderResponse.code);
-            expect(mockResponse.json).toHaveBeenCalledWith({message: mockCompleteOrderResponse.message});
+            expect(mockAdminService.completeOrder).toHaveBeenCalledWith(mockRequest.params.orderId);
+            expect(mockResponse.status).toHaveBeenCalledWith(mockReturnedValue.code);
+            expect(mockResponse.json).toHaveBeenCalledWith({message: mockReturnedValue.message});
         });
     });
 
     describe("addGoodsPage", () => {
         test("should render addGoods page with proper data", async () => {
-            const mockAddGoodsPageRequest = {
+            mockRequest = {
                 authInfo: {
                     level: 1
                 }
             }
 
-            await adminOutputController.addGoodsPage(mockAddGoodsPageRequest, mockResponse, next);
+            await adminOutputController.addGoodsPage(mockRequest, mockResponse, next);
 
             expect(mockResponse.render).toHaveBeenCalledWith("addGoods", {
                 loginId: true,
@@ -198,13 +204,13 @@ describe('AdminController', () => {
         });
 
         test("should return 400 if user does not have level 1 access", async () => {
-            const mockAddGoodsPageRequest = {
+            mockRequest = {
                 authInfo: {
                     level: 0
                 }
             }
 
-            await adminOutputController.addGoodsPage(mockAddGoodsPageRequest, mockResponse, next);
+            await adminOutputController.addGoodsPage(mockRequest, mockResponse, next);
 
             expect(mockResponse.status).toHaveBeenCalledWith(400);
             expect(mockResponse.json).toHaveBeenCalledWith({
@@ -215,12 +221,12 @@ describe('AdminController', () => {
 
     describe('getAdminPage', () => {
         test('should render admin page with correct parameters', async () => {
-            const mockGetAdminPageRequest = {
+            mockRequest = {
                 authInfo: {
                     level: 1
                 }
             }
-            await adminOutputController.getAdminPage(mockGetAdminPageRequest, mockResponse, next);
+            await adminOutputController.getAdminPage(mockRequest, mockResponse, next);
             expect(mockResponse.render).toHaveBeenCalledWith('admin', {
                 loginId: true,
                 title: 'adminPage',
@@ -228,12 +234,12 @@ describe('AdminController', () => {
         });
 
         test('should return 400 if user level is not 1', async () => {
-            const mockGetAdminPageRequest = {
+            mockRequest = {
                 authInfo: {
                     level: 0
                 }
             }
-            await adminOutputController.getAdminPage(mockGetAdminPageRequest, mockResponse, next);
+            await adminOutputController.getAdminPage(mockRequest, mockResponse, next);
             expect(mockResponse.status).toHaveBeenCalledWith(400);
             expect(mockResponse.json).toHaveBeenCalledWith({message: '권한이 없습니다.'});
         });
@@ -241,170 +247,193 @@ describe('AdminController', () => {
 
     describe('getMemberList', () => {
         test('should render manage members page', async () => {
-            const mockGetMemberListRequest = {
+            mockRequest = {
                 authInfo: {
                     level: 1
                 }
             }
 
-            const mockGetMemberListResponse = {
-                memberList: {
-                    id: 1, name: 'John Doe'
-                },
+            mockReturnedValue = {
+                data: {
+                    memberList: {
+                        id: 1, name: 'John Doe'
+                    }
+                }
+                ,
                 code: 200
             }
 
             mockAdminService.getMemberList = jest.fn(() => {
-                return mockGetMemberListResponse;
+                return mockReturnedValue;
             });
 
-            console.log('****', mockAdminService.getMemberList)
-
-            await adminOutputController.getMemberList(mockGetMemberListRequest, mockResponse, next);
+            await adminOutputController.getMemberList(mockRequest, mockResponse, next);
 
             expect(mockAdminService.getMemberList).toHaveBeenCalled()
-            expect(mockResponse.status).toHaveBeenCalledWith(mockGetMemberListResponse.code);
+            expect(mockResponse.status).toHaveBeenCalledWith(mockReturnedValue.code);
             expect(mockResponse.render).toHaveBeenCalledWith('manageMembers', {
-                data: mockGetMemberListResponse.memberList,
+                data: mockReturnedValue.data,
                 loginId: true,
                 title: 'manage members',
             });
         });
 
         test('should return error message if adminService returns an error', async () => {
-            const mockGetMemberListRequest = {
+            mockRequest = {
                 authInfo: {
                     level: 1
                 }
             }
 
-            const mockGetMemberListResponse = {
+            mockReturnedValue = {
                 code: 500,
                 message: 'Server error'
             }
 
             mockAdminService.getMemberList = jest.fn(() => {
-                return mockGetMemberListResponse;
+                return mockReturnedValue;
             });
 
-            await adminOutputController.getMemberList(mockGetMemberListRequest, mockResponse, next);
-            expect(mockResponse.status).toHaveBeenCalledWith(mockGetMemberListResponse.code);
-            expect(mockResponse.json).toHaveBeenCalledWith({message: mockGetMemberListResponse.message});
+            await adminOutputController.getMemberList(mockRequest, mockResponse, next);
+            expect(mockResponse.status).toHaveBeenCalledWith(mockReturnedValue.code);
+            expect(mockResponse.json).toHaveBeenCalledWith({message: mockReturnedValue.message});
         });
 
         test('should return 400 if user level is not 1', async () => {
-            const mockGetMemberListRequest = {
+            mockRequest = {
                 authInfo: {
                     level: 0
                 }
             }
 
-            await adminOutputController.getMemberList(mockGetMemberListRequest, mockResponse, next);
+            await adminOutputController.getMemberList(mockRequest, mockResponse, next);
             expect(mockResponse.status).toHaveBeenCalledWith(400);
             expect(mockResponse.json).toHaveBeenCalledWith({message: '권한이 없습니다.'});
         });
     });
 
-    // describe('getGoodsList', () => {
-    //     it('should render the manageGoods page with goods data', async () => {
-    //         const fakeGoodsData = [{id: 1, name: 'product 1', price: 100}, {
-    //             id: 2,
-    //             name: 'product 2',
-    //             price: 200
-    //         }, {id: 3, name: 'product 3', price: 300},];
-    //         const response = {code: 200, data: fakeGoodsData};
-    //         adminService.getGoodsList = jest.fn().mockResolvedValue(response);
-    //
-    //         await adminOutputController.getGoodsList(req, res, next);
-    //
-    //         expect(adminService.getGoodsList).toHaveBeenCalled();
-    //         expect(res.status).toHaveBeenCalledWith(response.code);
-    //         expect(res.render).toHaveBeenCalledWith('manageGoods', {
-    //             data: response.data,
-    //             loginId: true,
-    //             title: 'manage goods',
-    //         });
-    //     });
-    //
-    //     it('should return an error message if there was a problem fetching goods data', async () => {
-    //         const fakeErrorMessage = 'Error fetching goods data';
-    //         const response = {code: 500, message: fakeErrorMessage};
-    //         adminService.getGoodsList = jest.fn().mockResolvedValue(response);
-    //
-    //         await adminOutputController.getGoodsList(req, res, next);
-    //
-    //         expect(adminService.getGoodsList).toHaveBeenCalled();
-    //         expect(res.status).toHaveBeenCalledWith(response.code);
-    //         expect(res.json).toHaveBeenCalledWith({message: response.message});
-    //     });
-    // });
-    //
-    // describe('getOrderList', () => {
-    //     it('should render the manageOrders page with order data', async () => {
-    //         const fakeOrderData = [{id: 1, user: 'user1', date: '2022-02-01'}, {
-    //             id: 2,
-    //             user: 'user2',
-    //             date: '2022-02-02'
-    //         }, {id: 3, user: 'user3', date: '2022-02-03'},];
-    //         const response = {code: 200, data: fakeOrderData};
-    //         adminService.getOrderList = jest.fn().mockResolvedValue(response);
-    //
-    //         await adminOutputController.getOrderList(req, res, next);
-    //
-    //         expect(adminService.getOrderList).toHaveBeenCalled();
-    //         expect(res.status).toHaveBeenCalledWith(response.code);
-    //         expect(res.render).toHaveBeenCalledWith('manageOrders', {
-    //             data: response.data,
-    //             loginId: true,
-    //             title: 'manage orders',
-    //         });
-    //     });
-    //
-    //     it('should return an error message if there was a problem fetching order data', async () => {
-    //         const fakeErrorMessage = 'Error fetching order data';
-    //         const response = {code: 500, message: fakeErrorMessage};
-    //         adminService.getOrderList = jest.fn().mockResolvedValue(response);
-    //
-    //         await adminOutputController.getOrderList(req, res, next);
-    //
-    //         expect(adminService.getOrderList).toHaveBeenCalled();
-    //         expect(res.status).toHaveBeenCalledWith(response.code);
-    //         expect(res.json).toHaveBeenCalledWith({message: response.message});
-    //     });
-    // });
-    //
-    // describe("editGoodsPage", () => {
-    //     test("should render editGoods page with proper data", async () => {
-    //         req.authInfo = {level: 1};
-    //         req.params = {goodsId: 1};
-    //
-    //         const response = {
-    //             code: 200,
-    //             data: {name: "test goods"},
-    //         };
-    //         jest
-    //             .spyOn(adminService, "getOneGoods")
-    //             .mockImplementation(() => Promise.resolve(response));
-    //
-    //         await adminOutputController.editGoodsPage(req, res, next);
-    //
-    //         expect(res.render).toHaveBeenCalledWith("editGoods", {
-    //             data: response.data,
-    //             loginId: true,
-    //             title: "goods editing page",
-    //         });
-    //     });
-    //
-    //     test("should return 400 if user does not have level 1 access", async () => {
-    //         req.authInfo = {level: 1};
-    //         req.params = {goodsId: 0};
-    //
-    //         await adminOutputController.editGoodsPage(req, res, next);
-    //
-    //         expect(res.status).toHaveBeenCalledWith(400);
-    //         expect(res.json).toHaveBeenCalledWith({
-    //             message: "권한이 없습니다.",
-    //         });
-    //     });
-    // });
+    describe('getGoodsList', () => {
+        test('should render the manageGoods page with goods data', async () => {
+            mockRequest = {
+                authInfo: {
+                    level: 1
+                }
+            }
+
+            const fakeGoodsData = [{id: 1, name: 'product 1', price: 100}, {
+                id: 2,
+                name: 'product 2',
+                price: 200
+            }, {id: 3, name: 'product 3', price: 300},];
+            mockReturnedValue = {code: 200, data: fakeGoodsData};
+
+            mockAdminService.getGoodsList = jest.fn(() => mockReturnedValue);
+
+            await adminOutputController.getGoodsList(mockRequest, mockResponse, next);
+
+            expect(mockAdminService.getGoodsList).toHaveBeenCalled();
+            expect(mockResponse.status).toHaveBeenCalledWith(mockReturnedValue.code);
+            expect(mockResponse.render).toHaveBeenCalledWith('manageGoods', {
+                data: mockReturnedValue.data,
+                loginId: true,
+                title: 'manage goods',
+            });
+        });
+
+        test('should return an error message if there was a problem fetching goods data', async () => {
+            mockRequest = {
+                authInfo: {
+                    level: 1
+                }
+            }
+            const fakeErrorMessage = 'Error fetching goods data';
+            mockReturnedValue = {code: 500, message: fakeErrorMessage};
+            mockAdminService.getGoodsList = jest.fn(() => mockReturnedValue);
+
+            await adminOutputController.getGoodsList(mockRequest, mockResponse, next);
+
+            expect(mockAdminService.getGoodsList).toHaveBeenCalled();
+            expect(mockResponse.status).toHaveBeenCalledWith(mockReturnedValue.code);
+            expect(mockResponse.json).toHaveBeenCalledWith({message: mockReturnedValue.message});
+        });
+    });
+
+    describe('getOrderList', () => {
+        test('should render the manageOrders page with order data', async () => {
+            mockRequest = {
+                authInfo: {
+                    level: 1
+                }
+            }
+
+            const fakeOrderData = [{id: 1, user: 'user1', date: '2022-02-01'}, {
+                id: 2,
+                user: 'user2',
+                date: '2022-02-02'
+            }, {id: 3, user: 'user3', date: '2022-02-03'},];
+            mockReturnedValue = {code: 200, data: fakeOrderData};
+            mockAdminService.getOrderList = jest.fn(() => mockReturnedValue);
+
+            await adminOutputController.getOrderList(mockRequest, mockResponse, next);
+
+            expect(mockAdminService.getOrderList).toHaveBeenCalled();
+            expect(mockResponse.status).toHaveBeenCalledWith(mockReturnedValue.code);
+            expect(mockResponse.render).toHaveBeenCalledWith('manageOrders', {
+                data: mockReturnedValue.data,
+                loginId: true,
+                title: 'manage orders',
+            });
+        });
+
+        test('should return an error message if there was a problem fetching order data', async () => {
+            mockRequest = {
+                authInfo: {
+                    level: 1
+                }
+            }
+
+            const fakeErrorMessage = 'Error fetching order data';
+            mockReturnedValue = {code: 500, message: fakeErrorMessage};
+            mockAdminService.getOrderList = jest.fn(() => mockReturnedValue);
+
+            await adminOutputController.getOrderList(mockRequest, mockResponse, next);
+
+            expect(mockAdminService.getOrderList).toHaveBeenCalled();
+            expect(mockResponse.status).toHaveBeenCalledWith(mockReturnedValue.code);
+            expect(mockResponse.json).toHaveBeenCalledWith({message: mockReturnedValue.message});
+        });
+    });
+
+    describe("editGoodsPage", () => {
+        test("should render editGoods page with proper data", async () => {
+            mockRequest.authInfo = {level: 1};
+            mockRequest.params = {goodsId: 1};
+
+            mockReturnedValue = {
+                code: 200,
+                data: {name: "test goods"},
+            };
+            mockAdminService.getOneGoods = jest.fn(() => mockReturnedValue);
+
+            await adminOutputController.editGoodsPage(mockRequest, mockResponse, next);
+
+            expect(mockResponse.render).toHaveBeenCalledWith("editGoods", {
+                data: mockReturnedValue.data,
+                loginId: true,
+                title: "goods editing page",
+            });
+        });
+
+        test("should return 400 if user does not have level 1 access", async () => {
+            mockRequest.authInfo = {level: 0};
+            mockRequest.params = {goodsId: 0};
+
+            await adminOutputController.editGoodsPage(mockRequest, mockResponse, next);
+
+            expect(mockResponse.status).toHaveBeenCalledWith(400);
+            expect(mockResponse.json).toHaveBeenCalledWith({
+                message: "권한이 없습니다.",
+            });
+        });
+    });
 })

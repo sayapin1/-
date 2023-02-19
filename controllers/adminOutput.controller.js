@@ -24,9 +24,7 @@ class AdminOutputController {
             return res.status(400).json({message: "권한이 없습니다."})
         }
 
-        console.log('111111')
         const response = await this.adminService.getMemberList()
-        console.log('222222')
 
         if (response.data) {
             return res.status(response.code).render("manageMembers", {
